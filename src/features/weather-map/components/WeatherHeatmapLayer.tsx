@@ -4,7 +4,7 @@ import type {
   WeatherLayerRenderingConfig,
   WeatherPoint,
 } from '../types/weatherMap.types'
-import { getHeatmapRadius } from '../utils/heatmapRadius'
+import { getGeographicHeatmapRadius } from '../utils/heatmapRadius'
 
 type WeatherHeatmapLayerProps = {
   config: WeatherLayerRenderingConfig
@@ -36,23 +36,16 @@ export function WeatherHeatmapLayer({
 
     const heatmapLayer = new visualization.HeatmapLayer({
       data: toWeightedLocations(points, core.LatLng),
-      dissipating: true,
+      dissipating: false,
       gradient: config.gradient,
       maxIntensity: config.maxIntensity,
       opacity: config.opacity,
-      radius: getHeatmapRadius(config.radius, map.getZoom()),
+      radius: getGeographicHeatmapRadius(config.radius),
     })
 
     heatmapLayer.setMap(map)
 
-    const zoomListener = map.addListener('zoom_changed', () => {
-      heatmapLayer.setOptions({
-        radius: getHeatmapRadius(config.radius, map.getZoom()),
-      })
-    })
-
     return () => {
-      zoomListener.remove()
       heatmapLayer.setMap(null)
     }
   }, [config, core, map, points, visualization])

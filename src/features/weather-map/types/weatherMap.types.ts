@@ -24,6 +24,7 @@ export type WeatherHeatmapPoint = {
 
 export type WeatherLayerRadiusConfig = {
   base: number
+  geographic: number
   min: number
   max: number
   scale: number

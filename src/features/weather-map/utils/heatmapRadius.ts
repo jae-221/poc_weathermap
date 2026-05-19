@@ -10,3 +10,7 @@ export function getHeatmapRadius(
 ) {
   return clamp(radius.base + (zoom - 5) * radius.scale, radius.min, radius.max)
 }
+
+export function getGeographicHeatmapRadius(radius: WeatherLayerRadiusConfig) {
+  return radius.geographic
+}

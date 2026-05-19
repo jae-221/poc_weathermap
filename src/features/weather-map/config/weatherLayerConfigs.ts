@@ -24,6 +24,7 @@ export const weatherLayerConfigs: WeatherLayerConfig[] = [
     opacity: 0.66,
     radius: {
       base: 56,
+      geographic: 0.42,
       min: 18,
       max: 104,
       scale: 8,
@@ -44,6 +45,7 @@ export const weatherLayerConfigs: WeatherLayerConfig[] = [
     opacity: 0.58,
     radius: {
       base: 50,
+      geographic: 0.34,
       min: 18,
       max: 96,
       scale: 7,
@@ -64,6 +66,7 @@ export const weatherLayerConfigs: WeatherLayerConfig[] = [
     opacity: 0.62,
     radius: {
       base: 42,
+      geographic: 0.26,
       min: 14,
       max: 82,
       scale: 6,
@@ -85,6 +88,7 @@ export const weatherLayerConfigs: WeatherLayerConfig[] = [
     opacity: 0.54,
     radius: {
       base: 74,
+      geographic: 0.52,
       min: 28,
       max: 128,
       scale: 9,
@@ -106,6 +110,7 @@ export const weatherLayerConfigs: WeatherLayerConfig[] = [
     opacity: 0.68,
     radius: {
       base: 36,
+      geographic: 0.2,
       min: 12,
       max: 74,
       scale: 5,
