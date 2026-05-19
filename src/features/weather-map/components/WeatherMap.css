@@ -41,6 +41,28 @@
   font-size: 0.9rem;
 }
 
+.weather-data-status {
+  position: absolute;
+  left: 16px;
+  bottom: 24px;
+  z-index: 2;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  padding: 7px 10px;
+  border-radius: 6px;
+  color: #ffffff;
+  background: rgba(22, 22, 22, 0.72);
+  font-size: 0.78rem;
+  line-height: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
+}
+
+.weather-data-status span + span {
+  padding-left: 8px;
+  border-left: 1px solid rgba(255, 255, 255, 0.35);
+}
+
 .weather-layer-actions {
   position: absolute;
   top: 18px;

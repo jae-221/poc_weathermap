@@ -24,7 +24,7 @@ export const weatherLayerConfigs: WeatherLayerConfig[] = [
     opacity: 0.66,
     radius: {
       base: 56,
-      geographic: 0.42,
+      geographic: 0.32,
       min: 18,
       max: 104,
       scale: 8,

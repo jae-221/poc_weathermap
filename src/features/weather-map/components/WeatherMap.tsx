@@ -6,7 +6,7 @@ import {
   useApiLoadingStatus,
 } from '@vis.gl/react-google-maps'
 import { env } from '../../../config/env'
-import { weatherLayerConfigs } from '../config/weatherLayerConfigs'
+import { useMetarWeatherLayers } from '../hooks/useMetarWeatherLayers'
 import type { WeatherLayerType } from '../types/weatherMap.types'
 import { WeatherHeatmapLayer } from './WeatherHeatmapLayer'
 import './WeatherMap.css'
@@ -29,11 +29,12 @@ function hasGoogleMapsApi() {
 export function WeatherMap() {
   const hasApiKey = env.googleMapsApiKey.trim().length > 0
   const [apiError, setApiError] = useState(false)
+  const weatherData = useMetarWeatherLayers()
   const [selectedLayerId, setSelectedLayerId] =
     useState<WeatherLayerType>('radar')
   const selectedLayer =
-    weatherLayerConfigs.find((layer) => layer.id === selectedLayerId) ??
-    weatherLayerConfigs[0]
+    weatherData.layers.find((layer) => layer.id === selectedLayerId) ??
+    weatherData.layers[0]
 
   if (!hasApiKey) {
     return (
@@ -63,7 +64,7 @@ export function WeatherMap() {
           />
         </Map>
         <div className="weather-layer-actions" aria-label="Weather layer types">
-          {weatherLayerConfigs.map((layer) => {
+          {weatherData.layers.map((layer) => {
             const isSelected = layer.id === selectedLayerId
 
             return (
@@ -82,9 +83,60 @@ export function WeatherMap() {
             )
           })}
         </div>
+        <WeatherDataMessage
+          error={weatherData.error}
+          source={weatherData.source}
+          status={weatherData.status}
+          totalObservations={weatherData.observations.length}
+        />
         <MapLoadingMessage hasApiError={apiError} />
       </div>
     </APIProvider>
+  )
+}
+
+type WeatherDataMessageProps = {
+  error?: string
+  source: string
+  status: string
+  totalObservations: number
+}
+
+function getWeatherDataLabel({
+  source,
+  status,
+}: Pick<WeatherDataMessageProps, 'source' | 'status'>) {
+  if (status === 'loading') {
+    return 'Loading METAR data'
+  }
+
+  if (source === 'api') {
+    return 'Live METAR API'
+  }
+
+  if (source === 'cache') {
+    return 'Cached METAR data'
+  }
+
+  if (source === 'stale-cache') {
+    return 'Stale METAR cache'
+  }
+
+  return 'Mock METAR fallback'
+}
+
+function WeatherDataMessage({
+  error,
+  source,
+  status,
+  totalObservations,
+}: WeatherDataMessageProps) {
+  return (
+    <div className="weather-data-status" role="status">
+      <span>{getWeatherDataLabel({ source, status })}</span>
+      <span>{totalObservations} stations</span>
+      {error ? <span title={error}>API unavailable</span> : null}
+    </div>
   )
 }
 
