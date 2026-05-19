@@ -2,6 +2,7 @@
   position: relative;
   height: min(64vh, 640px);
   min-height: 420px;
+  background: var(--map-bg);
 }
 
 .weather-map {
@@ -17,7 +18,7 @@
   padding: 24px;
   text-align: center;
   color: var(--text);
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--map-bg);
 }
 
 .weather-map-overlay {

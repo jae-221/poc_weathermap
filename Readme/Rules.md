@@ -113,6 +113,38 @@ Do not access `import.meta.env` directly inside components.
 
 ---
 
+## Git Workflow Rules
+
+Create a dedicated branch before committing feature or bug-fix work.
+
+Use branch names grouped by work type:
+
+```txt
+feature/<short-description>
+fixbug/<short-description>
+chore/<short-description>
+docs/<short-description>
+refactor/<short-description>
+```
+
+Examples:
+
+```txt
+feature/weather-heatmap-layer
+fixbug/map-container-height
+docs/update-project-rules
+```
+
+Commit messages should start with a type in square brackets, followed by a short description.
+
+Example:
+
+```txt
+[feat] implemented weather heatmap layer
+```
+
+---
+
 ## Error Handling Rules
 
 The app must handle:

@@ -6,6 +6,8 @@ import {
   useApiLoadingStatus,
 } from '@vis.gl/react-google-maps'
 import { env } from '../../../config/env'
+import { mockWeatherPoints } from '../data/mockWeatherPoints'
+import { WeatherHeatmapLayer } from './WeatherHeatmapLayer'
 import './WeatherMap.css'
 
 const defaultCenter = {
@@ -44,7 +46,9 @@ export function WeatherMap() {
           defaultZoom={11}
           gestureHandling="greedy"
           disableDefaultUI={false}
-        />
+        >
+          <WeatherHeatmapLayer points={mockWeatherPoints} />
+        </Map>
         <MapLoadingMessage hasApiError={apiError} />
       </div>
     </APIProvider>
