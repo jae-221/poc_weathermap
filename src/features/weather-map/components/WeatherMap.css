@@ -1,7 +1,7 @@
 .weather-map-frame {
   position: relative;
   height: min(64vh, 640px);
-  min-height: 420px;
+  min-height: 700px;
   background: var(--map-bg);
 }
 

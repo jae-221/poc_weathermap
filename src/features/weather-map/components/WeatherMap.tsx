@@ -11,8 +11,8 @@ import { WeatherHeatmapLayer } from './WeatherHeatmapLayer'
 import './WeatherMap.css'
 
 const defaultCenter = {
-  lat: 13.7563,
-  lng: 100.5018,
+  lat: 13.3,
+  lng: 101,
 }
 
 type GoogleMapsGlobal = typeof globalThis & {
@@ -43,8 +43,12 @@ export function WeatherMap() {
         <Map
           className="weather-map"
           defaultCenter={defaultCenter}
-          defaultZoom={11}
+          defaultZoom={5}
+          minZoom={4}
+          maxZoom={15}
           gestureHandling="greedy"
+          mapTypeControl={false}
+          streetViewControl={false}
           disableDefaultUI={false}
         >
           <WeatherHeatmapLayer points={mockWeatherPoints} />
