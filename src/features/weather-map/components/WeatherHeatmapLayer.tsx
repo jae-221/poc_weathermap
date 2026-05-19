@@ -39,5 +39,29 @@ export function WeatherHeatmapLayer({ points }: WeatherHeatmapLayerProps) {
     }
   }, [core, map, points, visualization])
 
+  if (points.length === 0) {
+    return (
+      <div className="weather-map-status" role="status">
+        No weather data is available for the heatmap.
+      </div>
+    )
+  }
+
+  if (!map) {
+    return (
+      <div className="weather-map-status" role="status">
+        Preparing Google Map before rendering the heatmap.
+      </div>
+    )
+  }
+
+  if (!core || !visualization) {
+    return (
+      <div className="weather-map-status" role="status">
+        Loading Google Maps visualization library.
+      </div>
+    )
+  }
+
   return null
 }
