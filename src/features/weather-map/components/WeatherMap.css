@@ -118,6 +118,14 @@
     linear-gradient(135deg, #c92a2a, #f08c00 48%, #ffe066);
 }
 
+.weather-layer-thumb-thunderstorm {
+  background:
+    radial-gradient(circle at 60% 42%, #862e9c 0 14%, transparent 15%),
+    radial-gradient(circle at 44% 58%, #e03131 0 24%, transparent 25%),
+    radial-gradient(circle at 52% 50%, #ff922b 0 38%, transparent 39%),
+    linear-gradient(135deg, #fff3bf, #ffd43b 46%, #5f3dc4);
+}
+
 .weather-map-overlay strong,
 .weather-map-overlay span {
   display: block;

@@ -6,10 +6,8 @@ import {
   useApiLoadingStatus,
 } from '@vis.gl/react-google-maps'
 import { env } from '../../../config/env'
-import { radarMockPoints } from '../data/radarMockPoints'
-import { rainMockPoints } from '../data/rainMockPoints'
-import { temperatureMockPoints } from '../data/temperatureMockPoints'
-import { windMockPoints } from '../data/windMockPoints'
+import { weatherLayerConfigs } from '../config/weatherLayerConfigs'
+import type { WeatherLayerType } from '../types/weatherMap.types'
 import { WeatherHeatmapLayer } from './WeatherHeatmapLayer'
 import './WeatherMap.css'
 
@@ -28,43 +26,14 @@ function hasGoogleMapsApi() {
   return Boolean((globalThis as GoogleMapsGlobal).google?.maps)
 }
 
-const weatherLayers = [
-  {
-    id: 'radar',
-    label: 'Weather Radar',
-    points: radarMockPoints,
-    thumbClassName: 'weather-layer-thumb-radar',
-  },
-  {
-    id: 'wind',
-    label: 'Wind',
-    points: windMockPoints,
-    thumbClassName: 'weather-layer-thumb-wind',
-  },
-  {
-    id: 'rain',
-    label: 'Rain',
-    points: rainMockPoints,
-    thumbClassName: 'weather-layer-thumb-rain',
-  },
-  {
-    id: 'temperature',
-    label: 'Temperature',
-    points: temperatureMockPoints,
-    thumbClassName: 'weather-layer-thumb-temperature',
-  },
-] as const
-
-type WeatherLayerId = (typeof weatherLayers)[number]['id']
-
 export function WeatherMap() {
   const hasApiKey = env.googleMapsApiKey.trim().length > 0
   const [apiError, setApiError] = useState(false)
   const [selectedLayerId, setSelectedLayerId] =
-    useState<WeatherLayerId>('radar')
+    useState<WeatherLayerType>('radar')
   const selectedLayer =
-    weatherLayers.find((layer) => layer.id === selectedLayerId) ??
-    weatherLayers[0]
+    weatherLayerConfigs.find((layer) => layer.id === selectedLayerId) ??
+    weatherLayerConfigs[0]
 
   if (!hasApiKey) {
     return (
@@ -88,10 +57,13 @@ export function WeatherMap() {
           streetViewControl={false}
           disableDefaultUI={false}
         >
-          <WeatherHeatmapLayer points={selectedLayer.points} />
+          <WeatherHeatmapLayer
+            config={selectedLayer}
+            points={selectedLayer.points}
+          />
         </Map>
         <div className="weather-layer-actions" aria-label="Weather layer types">
-          {weatherLayers.map((layer) => {
+          {weatherLayerConfigs.map((layer) => {
             const isSelected = layer.id === selectedLayerId
 
             return (

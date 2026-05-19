@@ -8,7 +8,9 @@ function hasValidLocation(
     typeof observation.icaoId === 'string' &&
     typeof observation.name === 'string' &&
     typeof observation.lat === 'number' &&
-    typeof observation.lon === 'number'
+    Number.isFinite(observation.lat) &&
+    typeof observation.lon === 'number' &&
+    Number.isFinite(observation.lon)
   )
 }
 

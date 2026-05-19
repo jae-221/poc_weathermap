@@ -1,9 +1,12 @@
 import { createClusteredMockPoints } from '../data/createMockWeatherPoints'
-import type { MetarObservation, WeatherPoint } from '../types/weatherMap.types'
-
-type WeatherLayerKind = 'radar' | 'rain' | 'temperature' | 'wind'
+import type {
+  MetarObservation,
+  WeatherLayerType,
+  WeatherPoint,
+} from '../types/weatherMap.types'
 
 const coverScores: Record<string, number> = {
+  CAVOK: 0,
   CLR: 0,
   FEW: 0.16,
   SCT: 0.32,
@@ -53,7 +56,10 @@ function getCloudCoverScore(observation: MetarObservation) {
 }
 
 function getRainSignal(observation: MetarObservation) {
-  const precipScore = Math.min((observation.precip ?? 0) / 0.08, 1)
+  const precipScore = Math.min(
+    Math.max(observation.precip ?? 0, observation.pcp3hr ?? 0) / 0.08,
+    1,
+  )
   const rainCodeScore = hasWeatherCode(observation, ['RA', 'SHRA']) ? 0.72 : 0
   const thunderScore = hasWeatherCode(observation, ['TS', 'VCTS']) ? 0.2 : 0
 
@@ -90,7 +96,25 @@ function getWindSignal(observation: MetarObservation) {
   return clamp((sustained * 0.68 + gust * 0.32) / 28, 0.06)
 }
 
-function getSignal(observation: MetarObservation, layer: WeatherLayerKind) {
+function getThunderstormSignal(observation: MetarObservation) {
+  const thunderCodeScore = hasWeatherCode(observation, ['TSRA', 'VCTS', 'TS'])
+    ? 0.82
+    : 0
+  const gustScore = clamp((observation.wgst ?? 0) / 35)
+  const visibilityScore = clamp((6 - parseVisibility(observation.visib)) / 6)
+  const fltCatScore = observation.fltCat
+    ? flightCategoryScores[observation.fltCat]
+    : 0
+
+  return clamp(
+    thunderCodeScore * 0.58 +
+      gustScore * 0.18 +
+      visibilityScore * 0.14 +
+      fltCatScore * 0.1,
+  )
+}
+
+function getSignal(observation: MetarObservation, layer: WeatherLayerType) {
   if (layer === 'rain') {
     return getRainSignal(observation)
   }
@@ -103,10 +127,14 @@ function getSignal(observation: MetarObservation, layer: WeatherLayerKind) {
     return getWindSignal(observation)
   }
 
+  if (layer === 'thunderstorm') {
+    return getThunderstormSignal(observation)
+  }
+
   return getRadarSignal(observation)
 }
 
-function hasLayerValue(observation: MetarObservation, layer: WeatherLayerKind) {
+function hasLayerValue(observation: MetarObservation, layer: WeatherLayerType) {
   if (layer === 'temperature') {
     return typeof observation.temp === 'number'
   }
@@ -122,10 +150,14 @@ function hasLayerValue(observation: MetarObservation, layer: WeatherLayerKind) {
     return getRainSignal(observation) > 0
   }
 
+  if (layer === 'thunderstorm') {
+    return getThunderstormSignal(observation) > 0
+  }
+
   return true
 }
 
-function getClusterSize(layer: WeatherLayerKind) {
+function getClusterSize(layer: WeatherLayerType) {
   if (layer === 'temperature') {
     return { radiusLat: 0.72, radiusLng: 0.72 }
   }
@@ -138,12 +170,16 @@ function getClusterSize(layer: WeatherLayerKind) {
     return { radiusLat: 0.44, radiusLng: 0.5 }
   }
 
+  if (layer === 'thunderstorm') {
+    return { radiusLat: 0.32, radiusLng: 0.36 }
+  }
+
   return { radiusLat: 0.54, radiusLng: 0.58 }
 }
 
 export function mapMetarToWeatherPoints(
   observations: MetarObservation[],
-  layer: WeatherLayerKind,
+  layer: WeatherLayerType,
   pointsPerStation: number,
 ): WeatherPoint[] {
   const clusterSize = getClusterSize(layer)
