@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
 import { weatherLayerConfigs } from '../config/weatherLayerConfigs'
-import { metarMockResponse } from '../data/metarMockResponse'
 import { mapMetarToWeatherPoints } from '../mappers/metarToWeatherPoints'
 import {
   fetchMetarObservations,
@@ -12,17 +11,16 @@ import type {
   WeatherLayerType,
 } from '../types/weatherMap.types'
 
-type WeatherDataStatus = 'loading' | 'ready' | 'fallback'
+type WeatherDataStatus = 'loading' | 'ready' | 'error'
 
 type WeatherDataState = {
   error?: string
   observations: MetarObservation[]
-  source: MetarFetchSource | 'mock'
+  source?: MetarFetchSource
   status: WeatherDataStatus
 }
 
 const pointsPerStationByLayer: Record<WeatherLayerType, number> = {
-  radar: 8,
   rain: 8,
   temperature: 6,
   thunderstorm: 8,
@@ -44,8 +42,7 @@ function createLayerConfigs(
 
 export function useMetarWeatherLayers() {
   const [state, setState] = useState<WeatherDataState>({
-    observations: metarMockResponse,
-    source: 'mock',
+    observations: [],
     status: 'loading',
   })
 
@@ -67,9 +64,8 @@ export function useMetarWeatherLayers() {
 
         setState({
           error: error instanceof Error ? error.message : 'Unknown API error',
-          observations: metarMockResponse,
-          source: 'mock',
-          status: 'fallback',
+          observations: [],
+          status: 'error',
         })
       })
 

@@ -1,5 +1,4 @@
 export type WeatherLayerType =
-  | 'radar'
   | 'temperature'
   | 'wind'
   | 'rain'
@@ -15,7 +14,6 @@ export type WeatherHeatmapPoint = {
   windKt?: number
   gustKt?: number
   rainfallMmHr?: number
-  radarDbz?: number
   thunderstormSeverity?: number
   visibilityKm?: number
   weight?: number

@@ -31,7 +31,7 @@ export function WeatherMap() {
   const [apiError, setApiError] = useState(false)
   const weatherData = useMetarWeatherLayers()
   const [selectedLayerId, setSelectedLayerId] =
-    useState<WeatherLayerType>('radar')
+    useState<WeatherLayerType>('temperature')
   const selectedLayer =
     weatherData.layers.find((layer) => layer.id === selectedLayerId) ??
     weatherData.layers[0]
@@ -97,7 +97,7 @@ export function WeatherMap() {
 
 type WeatherDataMessageProps = {
   error?: string
-  source: string
+  source?: string
   status: string
   totalObservations: number
 }
@@ -122,7 +122,11 @@ function getWeatherDataLabel({
     return 'Stale METAR cache'
   }
 
-  return 'Mock METAR fallback'
+  if (status === 'error') {
+    return 'METAR API unavailable'
+  }
+
+  return 'Waiting for METAR data'
 }
 
 function WeatherDataMessage({
@@ -150,16 +154,16 @@ function MapLoadingMessage({ hasApiError }: MapLoadingMessageProps) {
   const [isGoogleMapsUnavailable, setIsGoogleMapsUnavailable] = useState(false)
 
   useEffect(() => {
-    if (status === APILoadingStatus.LOADED && hasGoogleMapsApi()) {
-      setIsTakingTooLong(false)
-      setIsGoogleMapsUnavailable(false)
-      return
-    }
-
     const timeoutId = window.setTimeout(() => {
+      if (status === APILoadingStatus.LOADED && hasGoogleMapsApi()) {
+        setIsTakingTooLong(false)
+        setIsGoogleMapsUnavailable(false)
+        return
+      }
+
       setIsTakingTooLong(true)
       setIsGoogleMapsUnavailable(!hasGoogleMapsApi())
-    }, 3000)
+    }, status === APILoadingStatus.LOADED ? 0 : 3000)
 
     return () => window.clearTimeout(timeoutId)
   }, [status])

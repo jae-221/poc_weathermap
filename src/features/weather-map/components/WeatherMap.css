@@ -112,14 +112,6 @@
   border-radius: 50%;
 }
 
-.weather-layer-thumb-radar {
-  background:
-    radial-gradient(circle at 62% 44%, #ff5b32 0 15%, transparent 16%),
-    radial-gradient(circle at 52% 50%, #ffd833 0 28%, transparent 29%),
-    radial-gradient(circle at 48% 52%, #3bd36f 0 44%, transparent 45%),
-    radial-gradient(circle at 50% 50%, #35a6ff 0 58%, #6ed6ef 59% 100%);
-}
-
 .weather-layer-thumb-wind {
   background:
     conic-gradient(from 45deg, #63e6be, #4dabf7, #9775fa, #63e6be),

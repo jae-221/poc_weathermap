@@ -1,39 +1,10 @@
-import { radarMockPoints } from '../data/radarMockPoints'
-import { rainMockPoints } from '../data/rainMockPoints'
-import { temperatureMockPoints } from '../data/temperatureMockPoints'
-import { thunderstormMockPoints } from '../data/thunderstormMockPoints'
-import { windMockPoints } from '../data/windMockPoints'
-import type {
-  WeatherLayerConfig,
-} from '../types/weatherMap.types'
+import type { WeatherLayerConfig } from '../types/weatherMap.types'
 
 export const weatherLayerConfigs: WeatherLayerConfig[] = [
   {
-    id: 'radar',
-    label: 'Weather Radar',
-    points: radarMockPoints,
-    thumbClassName: 'weather-layer-thumb-radar',
-    gradient: [
-      'rgba(0, 90, 255, 0)',
-      'rgba(0, 140, 255, 0.65)',
-      'rgba(0, 210, 120, 0.78)',
-      'rgba(255, 230, 40, 0.86)',
-      'rgba(255, 70, 40, 0.94)',
-    ],
-    maxIntensity: 1,
-    opacity: 0.66,
-    radius: {
-      base: 56,
-      geographic: 0.32,
-      min: 18,
-      max: 104,
-      scale: 8,
-    },
-  },
-  {
     id: 'wind',
     label: 'Wind',
-    points: windMockPoints,
+    points: [],
     thumbClassName: 'weather-layer-thumb-wind',
     gradient: [
       'rgba(0, 220, 255, 0)',
@@ -54,7 +25,7 @@ export const weatherLayerConfigs: WeatherLayerConfig[] = [
   {
     id: 'rain',
     label: 'Rain',
-    points: rainMockPoints,
+    points: [],
     thumbClassName: 'weather-layer-thumb-rain',
     gradient: [
       'rgba(80, 190, 255, 0)',
@@ -75,7 +46,7 @@ export const weatherLayerConfigs: WeatherLayerConfig[] = [
   {
     id: 'temperature',
     label: 'Temperature',
-    points: temperatureMockPoints,
+    points: [],
     thumbClassName: 'weather-layer-thumb-temperature',
     gradient: [
       'rgba(50, 120, 255, 0)',
@@ -97,7 +68,7 @@ export const weatherLayerConfigs: WeatherLayerConfig[] = [
   {
     id: 'thunderstorm',
     label: 'Thunderstorm',
-    points: thunderstormMockPoints,
+    points: [],
     thumbClassName: 'weather-layer-thumb-thunderstorm',
     gradient: [
       'rgba(255, 235, 60, 0)',

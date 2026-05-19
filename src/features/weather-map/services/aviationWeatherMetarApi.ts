@@ -1,16 +1,11 @@
 import type { MetarObservation } from '../types/weatherMap.types'
 
 const AVIATION_WEATHER_BASE_URL = '/api/aviationweather/metar'
-const BBOX = {
-  maxLat: 20.5,
-  maxLon: 106.0,
-  minLat: 5.5,
-  minLon: 97.0,
-}
+const AVIATION_WEATHER_BBOX = '5.5,97.0,20.5,106.0'
 
 export const METAR_CACHE_TTL_MS = 60 * 60 * 1000
 export const METAR_CACHE_KEY =
-  'poc-weathermap:aviationweather:metar:bbox:5.5,97.0,20.5,106.0'
+  `poc-weathermap:aviationweather:metar:bbox:${AVIATION_WEATHER_BBOX}`
 
 type CachedMetarPayload = {
   cachedAt: number
@@ -26,7 +21,7 @@ export type MetarFetchResult = {
 
 export function getAviationWeatherMetarUrl() {
   const params = new URLSearchParams({
-    bbox: `${BBOX.minLon},${BBOX.minLat},${BBOX.maxLon},${BBOX.maxLat}`,
+    bbox: AVIATION_WEATHER_BBOX,
     format: 'json',
   })
 

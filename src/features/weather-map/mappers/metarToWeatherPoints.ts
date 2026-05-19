@@ -1,19 +1,9 @@
-import { createClusteredMockPoints } from '../data/createMockWeatherPoints'
+import { createWeatherPointClusters } from '../utils/createWeatherPointClusters'
 import type {
   MetarObservation,
   WeatherLayerType,
   WeatherPoint,
 } from '../types/weatherMap.types'
-
-const coverScores: Record<string, number> = {
-  CAVOK: 0,
-  CLR: 0,
-  FEW: 0.16,
-  SCT: 0.32,
-  BKN: 0.62,
-  OVC: 0.82,
-  OVX: 0.92,
-}
 
 const flightCategoryScores: Record<NonNullable<MetarObservation['fltCat']>, number> = {
   IFR: 0.72,
@@ -40,29 +30,10 @@ function parseVisibility(visib: MetarObservation['visib']) {
 
 function hasWeatherCode(observation: MetarObservation, codes: string[]) {
   const wxString = observation.wxString ?? ''
-  const raw = wxString.toUpperCase()
+  const rawObservation = observation.rawOb ?? ''
+  const raw = `${wxString} ${rawObservation}`.toUpperCase()
 
   return codes.some((code) => raw.includes(code))
-}
-
-function hasRawWeatherSignal(observation: MetarObservation, codes: string[]) {
-  const rawObservation = observation.rawOb?.toUpperCase() ?? ''
-
-  return codes.some((code) => rawObservation.includes(code))
-}
-
-function hasConvectiveCloud(observation: MetarObservation) {
-  return hasRawWeatherSignal(observation, ['CB', 'TCU'])
-}
-
-function getCloudCoverScore(observation: MetarObservation) {
-  const coverScore = observation.cover ? coverScores[observation.cover] ?? 0 : 0
-  const cloudLayerScore =
-    observation.clouds?.reduce((score, cloud) => {
-      return Math.max(score, coverScores[cloud.cover] ?? 0)
-    }, 0) ?? 0
-
-  return Math.max(coverScore, cloudLayerScore)
 }
 
 function getRainSignal(observation: MetarObservation) {
@@ -80,29 +51,6 @@ function getRainSignal(observation: MetarObservation) {
 
   return clamp(
     Math.max(precipScore, rainCodeScore, showerNearbyScore) + thunderScore,
-  )
-}
-
-function getRadarSignal(observation: MetarObservation) {
-  const rainScore = getRainSignal(observation)
-  const convectiveScore =
-    hasWeatherCode(observation, ['TSRA', 'VCTS', 'TS']) ||
-    hasConvectiveCloud(observation)
-      ? 0.78
-      : 0
-  const cloudScore = getCloudCoverScore(observation)
-  const fltCatScore = observation.fltCat
-    ? flightCategoryScores[observation.fltCat] - flightCategoryScores.VFR
-    : 0
-  const visibilityScore = clamp((8 - parseVisibility(observation.visib)) / 8)
-  const fogScore = hasWeatherCode(observation, ['FG', 'BR', 'HZ']) ? 0.16 : 0
-
-  return clamp(
-    Math.max(rainScore, convectiveScore) * 0.62 +
-      cloudScore * 0.14 +
-      fltCatScore * 0.08 +
-      visibilityScore * 0.16 +
-      fogScore,
   )
 }
 
@@ -152,7 +100,7 @@ function getSignal(observation: MetarObservation, layer: WeatherLayerType) {
     return getThunderstormSignal(observation)
   }
 
-  return getRadarSignal(observation)
+  return getTemperatureSignal(observation)
 }
 
 function hasLayerValue(observation: MetarObservation, layer: WeatherLayerType) {
@@ -173,10 +121,6 @@ function hasLayerValue(observation: MetarObservation, layer: WeatherLayerType) {
 
   if (layer === 'thunderstorm') {
     return getThunderstormSignal(observation) > 0
-  }
-
-  if (layer === 'radar') {
-    return getRadarSignal(observation) > 0.14
   }
 
   return true
@@ -219,5 +163,5 @@ export function mapMetarToWeatherPoints(
       ...clusterSize,
     }))
 
-  return createClusteredMockPoints(clusters, pointsPerStation)
+  return createWeatherPointClusters(clusters, pointsPerStation)
 }
