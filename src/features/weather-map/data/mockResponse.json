@@ -11113,5 +11113,1141 @@
         "cover": "CLR",
         "clouds": [],
         "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VTSS",
+        "receiptTime": "2026-05-19T10:36:11.603Z",
+        "obsTime": 1779186600,
+        "reportTime": "2026-05-19T10:30:00.000Z",
+        "temp": 28,
+        "dewp": 24,
+        "wdir": 220,
+        "wspd": 6,
+        "visib": "6+",
+        "altim": 1006,
+        "qcField": 16,
+        "metarType": "METAR",
+        "rawOb": "METAR VTSS 191030Z 22006KT 170V260 9999 SCT020 BKN100 28/24 Q1006 NOSIG",
+        "lat": 6.933,
+        "lon": 100.393,
+        "elev": 28,
+        "name": "Hat Yai Intl, 90, TH",
+        "cover": "BKN",
+        "clouds": [
+            {
+                "cover": "SCT",
+                "base": 2000
+            },
+            {
+                "cover": "BKN",
+                "base": 10000
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VDSV",
+        "receiptTime": "2026-05-19T10:36:08.674Z",
+        "obsTime": 1779186600,
+        "reportTime": "2026-05-19T10:30:00.000Z",
+        "temp": 31,
+        "dewp": 25,
+        "wdir": 260,
+        "wspd": 12,
+        "visib": 5.59,
+        "altim": 1004,
+        "qcField": 0,
+        "metarType": "METAR",
+        "rawOb": "METAR VDSV 191030Z 26012KT 9000 SCT015 FEW017CB SCT040 31/25 Q1004 RMK CB:N",
+        "lat": 10.582,
+        "lon": 103.637,
+        "elev": 1,
+        "name": "Sihanoukville Intl, , KH",
+        "cover": "SCT",
+        "clouds": [
+            {
+                "cover": "SCT",
+                "base": 1500
+            },
+            {
+                "cover": "FEW",
+                "base": 1700
+            },
+            {
+                "cover": "SCT",
+                "base": 4000
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VTCC",
+        "receiptTime": "2026-05-19T10:36:11.474Z",
+        "obsTime": 1779186600,
+        "reportTime": "2026-05-19T10:30:00.000Z",
+        "temp": 35,
+        "dewp": 23,
+        "wdir": 240,
+        "wspd": 7,
+        "visib": "6+",
+        "altim": 1001,
+        "qcField": 16,
+        "metarType": "METAR",
+        "rawOb": "METAR VTCC 191030Z 24007KT 9999 SCT035 35/23 Q1001 NOSIG",
+        "lat": 18.771,
+        "lon": 98.963,
+        "elev": 308,
+        "name": "Chiang Mai Intl, 50, TH",
+        "cover": "SCT",
+        "clouds": [
+            {
+                "cover": "SCT",
+                "base": 3500
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VVPQ",
+        "receiptTime": "2026-05-19T10:39:06.226Z",
+        "obsTime": 1779186600,
+        "reportTime": "2026-05-19T10:30:00.000Z",
+        "temp": 30,
+        "dewp": 28,
+        "wdir": 270,
+        "wspd": 11,
+        "visib": "6+",
+        "altim": 1004,
+        "qcField": 16,
+        "metarType": "METAR",
+        "rawOb": "METAR VVPQ 191030Z 27011KT 9999 SCT015 SCT040 30/28 Q1004 NOSIG",
+        "lat": 10.169,
+        "lon": 103.995,
+        "elev": 8,
+        "name": "Phu Quoc Arpt, 40, VN",
+        "cover": "SCT",
+        "clouds": [
+            {
+                "cover": "SCT",
+                "base": 1500
+            },
+            {
+                "cover": "SCT",
+                "base": 4000
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VDSA",
+        "receiptTime": "2026-05-19T10:36:08.722Z",
+        "obsTime": 1779186600,
+        "reportTime": "2026-05-19T10:30:00.000Z",
+        "temp": 32,
+        "dewp": 25,
+        "wdir": 230,
+        "wspd": 13,
+        "visib": "6+",
+        "altim": 1002,
+        "qcField": 0,
+        "metarType": "METAR",
+        "rawOb": "METAR VDSA 191030Z 23013KT 9999 SCT015 FEW017CB BKN040 32/25 Q1002 RMK CB:NE",
+        "lat": 13.371,
+        "lon": 104.225,
+        "elev": 59,
+        "name": "Siem Reap-Ankr Intl, 17, KH",
+        "cover": "BKN",
+        "clouds": [
+            {
+                "cover": "SCT",
+                "base": 1500
+            },
+            {
+                "cover": "FEW",
+                "base": 1700
+            },
+            {
+                "cover": "BKN",
+                "base": 4000
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VTBD",
+        "receiptTime": "2026-05-19T10:36:11.299Z",
+        "obsTime": 1779186600,
+        "reportTime": "2026-05-19T10:30:00.000Z",
+        "temp": 31,
+        "dewp": 24,
+        "wdir": 240,
+        "wspd": 10,
+        "visib": "6+",
+        "altim": 1001,
+        "qcField": 16,
+        "wxString": "VCSH",
+        "metarType": "METAR",
+        "rawOb": "METAR VTBD 191030Z 24010KT 9999 VCSH FEW020CB SCT040 BKN100 31/24 Q1001 NOSIG",
+        "lat": 13.913,
+        "lon": 100.607,
+        "elev": 6,
+        "name": "Bangkok Intl, 10, TH",
+        "cover": "BKN",
+        "clouds": [
+            {
+                "cover": "FEW",
+                "base": 2000
+            },
+            {
+                "cover": "SCT",
+                "base": 4000
+            },
+            {
+                "cover": "BKN",
+                "base": 10000
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VTSP",
+        "receiptTime": "2026-05-19T10:41:13.533Z",
+        "obsTime": 1779186600,
+        "reportTime": "2026-05-19T10:30:00.000Z",
+        "temp": 27,
+        "dewp": 26,
+        "wdir": 280,
+        "wspd": 13,
+        "visib": "6+",
+        "altim": 1005,
+        "qcField": 16,
+        "wxString": "VCSH",
+        "metarType": "METAR",
+        "rawOb": "METAR VTSP 191030Z 28013KT 9999 VCSH SCT020 BKN100 27/26 Q1005 WS ALL RWY NOSIG",
+        "lat": 8.105,
+        "lon": 98.308,
+        "elev": 12,
+        "name": "Phuket Intl, 83, TH",
+        "cover": "BKN",
+        "clouds": [
+            {
+                "cover": "SCT",
+                "base": 2000
+            },
+            {
+                "cover": "BKN",
+                "base": 10000
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VTBU",
+        "receiptTime": "2026-05-19T10:36:11.648Z",
+        "obsTime": 1779186600,
+        "reportTime": "2026-05-19T10:30:00.000Z",
+        "temp": 30,
+        "dewp": 28,
+        "wdir": 190,
+        "wspd": 10,
+        "visib": "6+",
+        "altim": 1002,
+        "qcField": 16,
+        "metarType": "METAR",
+        "rawOb": "METAR VTBU 191030Z 19010KT 9999 FEW020 30/28 Q1002 NOSIG",
+        "lat": 12.68,
+        "lon": 101.001,
+        "elev": 12,
+        "name": "Rayong/U-Tapao Intl, 21, TH",
+        "cover": "FEW",
+        "clouds": [
+            {
+                "cover": "FEW",
+                "base": 2000
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VVCT",
+        "receiptTime": "2026-05-19T10:36:11.887Z",
+        "obsTime": 1779186600,
+        "reportTime": "2026-05-19T10:30:00.000Z",
+        "temp": 30,
+        "dewp": 26,
+        "wdir": 240,
+        "wspd": 6,
+        "visib": "6+",
+        "altim": 1004,
+        "qcField": 16,
+        "metarType": "METAR",
+        "rawOb": "METAR VVCT 191030Z 24006KT 9999 FEW015 SCT050 30/26 Q1004 NOSIG",
+        "lat": 10.085,
+        "lon": 105.712,
+        "elev": 6,
+        "name": "Can Tho Intl, 2, VN",
+        "cover": "SCT",
+        "clouds": [
+            {
+                "cover": "FEW",
+                "base": 1500
+            },
+            {
+                "cover": "SCT",
+                "base": 5000
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VTSM",
+        "receiptTime": "2026-05-19T10:05:37.832Z",
+        "obsTime": 1779184800,
+        "reportTime": "2026-05-19T10:00:00.000Z",
+        "temp": 30,
+        "dewp": 25,
+        "wdir": 300,
+        "wspd": 6,
+        "visib": "6+",
+        "altim": 1005,
+        "qcField": 16,
+        "metarType": "METAR",
+        "rawOb": "METAR VTSM 191000Z 30006KT 270V330 9999 SCT020 30/25 Q1005 NOSIG",
+        "lat": 9.548,
+        "lon": 100.062,
+        "elev": 12,
+        "name": "Samui Intl, 80, TH",
+        "cover": "SCT",
+        "clouds": [
+            {
+                "cover": "SCT",
+                "base": 2000
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VTCP",
+        "receiptTime": "2026-05-19T10:05:32.034Z",
+        "obsTime": 1779184800,
+        "reportTime": "2026-05-19T10:00:00.000Z",
+        "temp": 30,
+        "dewp": 26,
+        "wdir": 280,
+        "wspd": 3,
+        "visib": "6+",
+        "altim": 1002,
+        "qcField": 16,
+        "metarType": "METAR",
+        "rawOb": "METAR VTCP 191000Z 28003KT 240V310 9999 FEW030 30/26 Q1002 NOSIG",
+        "lat": 18.129,
+        "lon": 100.162,
+        "elev": 166,
+        "name": "Phrae Arpt, 54, TH",
+        "cover": "FEW",
+        "clouds": [
+            {
+                "cover": "FEW",
+                "base": 3000
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VTPP",
+        "receiptTime": "2026-05-19T10:05:32.151Z",
+        "obsTime": 1779184800,
+        "reportTime": "2026-05-19T10:00:00.000Z",
+        "temp": 28,
+        "dewp": 26,
+        "wdir": "VRB",
+        "wspd": 2,
+        "visib": "6+",
+        "altim": 1001,
+        "qcField": 16,
+        "metarType": "METAR",
+        "rawOb": "METAR VTPP 191000Z VRB02KT CAVOK 28/26 Q1001 NOSIG",
+        "lat": 16.792,
+        "lon": 100.274,
+        "elev": 45,
+        "name": "Phitsanulok Arpt, 65, TH",
+        "cover": "CAVOK",
+        "clouds": [],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "WMKA",
+        "receiptTime": "2026-05-19T10:08:31.480Z",
+        "obsTime": 1779184800,
+        "reportTime": "2026-05-19T10:00:00.000Z",
+        "temp": 26,
+        "dewp": 25,
+        "wdir": 0,
+        "wspd": 0,
+        "visib": 5.59,
+        "altim": 1006,
+        "qcField": 0,
+        "wxString": "-TSRA",
+        "metarType": "METAR",
+        "rawOb": "METAR WMKA 191000Z 00000KT 9000 -TSRA FEW010 FEW017CB SCT024 26/25 Q1006",
+        "lat": 6.19,
+        "lon": 100.398,
+        "elev": 5,
+        "name": "Alor Setar/Halim Arpt, KD, MY",
+        "cover": "SCT",
+        "clouds": [
+            {
+                "cover": "FEW",
+                "base": 1000
+            },
+            {
+                "cover": "FEW",
+                "base": 1700
+            },
+            {
+                "cover": "SCT",
+                "base": 2400
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VTCN",
+        "receiptTime": "2026-05-19T10:05:32.004Z",
+        "obsTime": 1779184800,
+        "reportTime": "2026-05-19T10:00:00.000Z",
+        "temp": 31,
+        "dewp": 25,
+        "wdir": 180,
+        "wspd": 6,
+        "visib": "6+",
+        "altim": 1001,
+        "qcField": 16,
+        "metarType": "METAR",
+        "rawOb": "METAR VTCN 191000Z 18006KT 9999 FEW025 31/25 Q1001 NOSIG",
+        "lat": 18.807,
+        "lon": 100.787,
+        "elev": 211,
+        "name": "Nan Arpt, 55, TH",
+        "cover": "FEW",
+        "clouds": [
+            {
+                "cover": "FEW",
+                "base": 2500
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VTCH",
+        "receiptTime": "2026-05-19T10:05:31.940Z",
+        "obsTime": 1779184800,
+        "reportTime": "2026-05-19T10:00:00.000Z",
+        "temp": 37,
+        "dewp": 23,
+        "wdir": "VRB",
+        "wspd": 2,
+        "visib": "6+",
+        "altim": 1000,
+        "qcField": 16,
+        "metarType": "METAR",
+        "rawOb": "METAR VTCH 191000Z VRB02KT 9999 FEW025 37/23 Q1000 NOSIG",
+        "lat": 19.302,
+        "lon": 97.972,
+        "elev": 266,
+        "name": "Mae Hong Son Arpt, 58, TH",
+        "cover": "FEW",
+        "clouds": [
+            {
+                "cover": "FEW",
+                "base": 2500
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VTPB",
+        "receiptTime": "2026-05-19T10:05:32.189Z",
+        "obsTime": 1779184800,
+        "reportTime": "2026-05-19T10:00:00.000Z",
+        "temp": 29,
+        "dewp": 26,
+        "wdir": "VRB",
+        "wspd": 2,
+        "visib": "6+",
+        "altim": 1001,
+        "qcField": 16,
+        "metarType": "METAR",
+        "rawOb": "METAR VTPB 191000Z VRB02KT 9999 SCT025 29/26 Q1001 NOSIG",
+        "lat": 16.676,
+        "lon": 101.195,
+        "elev": 134,
+        "name": "Phetchabun Arpt, 76, TH",
+        "cover": "SCT",
+        "clouds": [
+            {
+                "cover": "SCT",
+                "base": 2500
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VTUL",
+        "receiptTime": "2026-05-19T10:05:38.359Z",
+        "obsTime": 1779184800,
+        "reportTime": "2026-05-19T10:00:00.000Z",
+        "temp": 31,
+        "dewp": 25,
+        "wdir": "VRB",
+        "wspd": 3,
+        "visib": "6+",
+        "altim": 1002,
+        "qcField": 16,
+        "metarType": "METAR",
+        "rawOb": "METAR VTUL 191000Z VRB03KT 9999 BKN025 31/25 Q1002 NOSIG",
+        "lat": 17.445,
+        "lon": 101.725,
+        "elev": 257,
+        "name": "Loei Arpt, 42, TH",
+        "cover": "BKN",
+        "clouds": [
+            {
+                "cover": "BKN",
+                "base": 2500
+            }
+        ],
+        "fltCat": "MVFR"
+    },
+    {
+        "icaoId": "VTSC",
+        "receiptTime": "2026-05-19T10:05:37.620Z",
+        "obsTime": 1779184800,
+        "reportTime": "2026-05-19T10:00:00.000Z",
+        "temp": 32,
+        "dewp": 22,
+        "wdir": 250,
+        "wspd": 12,
+        "visib": "6+",
+        "altim": 1005,
+        "qcField": 16,
+        "metarType": "METAR",
+        "rawOb": "METAR VTSC 191000Z 25012KT 9999 FEW020 32/22 Q1005 NOSIG",
+        "lat": 6.52,
+        "lon": 101.743,
+        "elev": 5,
+        "name": "Narathiwat Arpt, 96, TH",
+        "cover": "FEW",
+        "clouds": [
+            {
+                "cover": "FEW",
+                "base": 2000
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VLLB",
+        "receiptTime": "2026-05-19T10:05:33.359Z",
+        "obsTime": 1779184800,
+        "reportTime": "2026-05-19T10:00:00.000Z",
+        "temp": 32,
+        "dewp": 24,
+        "wdir": 270,
+        "wspd": 4,
+        "visib": "6+",
+        "altim": 999,
+        "qcField": 16,
+        "metarType": "METAR",
+        "rawOb": "METAR VLLB 191000Z 27004KT 9999 SCT010 BKN080 32/24 Q0999 NOSIG",
+        "lat": 19.897,
+        "lon": 102.161,
+        "elev": 297,
+        "name": "Luang-Prabang, LP, LA",
+        "cover": "BKN",
+        "clouds": [
+            {
+                "cover": "SCT",
+                "base": 1000
+            },
+            {
+                "cover": "BKN",
+                "base": 8000
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "WMKC",
+        "receiptTime": "2026-05-19T10:08:31.540Z",
+        "obsTime": 1779184800,
+        "reportTime": "2026-05-19T10:00:00.000Z",
+        "temp": 33,
+        "dewp": 22,
+        "wdir": 270,
+        "wspd": 6,
+        "visib": "6+",
+        "altim": 1005,
+        "qcField": 0,
+        "metarType": "METAR",
+        "rawOb": "METAR WMKC 191000Z 27006KT 240V300 9999 FEW018 33/22 Q1005",
+        "lat": 6.167,
+        "lon": 102.293,
+        "elev": 7,
+        "name": "Kota Bharu Arpt, KN, MY",
+        "cover": "FEW",
+        "clouds": [
+            {
+                "cover": "FEW",
+                "base": 1800
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VTUQ",
+        "receiptTime": "2026-05-19T10:05:38.448Z",
+        "obsTime": 1779184800,
+        "reportTime": "2026-05-19T10:00:00.000Z",
+        "temp": 29,
+        "dewp": 29,
+        "wdir": 360,
+        "wspd": 3,
+        "visib": "6+",
+        "altim": 1002,
+        "qcField": 16,
+        "metarType": "METAR",
+        "rawOb": "METAR VTUQ 191000Z 36003KT 320V050 9999 FEW030 BKN080 29/29 Q1002 NOSIG",
+        "lat": 14.95,
+        "lon": 102.313,
+        "elev": 225,
+        "name": "Nakhon Ratchasima Arpt, 30, TH",
+        "cover": "BKN",
+        "clouds": [
+            {
+                "cover": "FEW",
+                "base": 3000
+            },
+            {
+                "cover": "BKN",
+                "base": 8000
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VTBO",
+        "receiptTime": "2026-05-19T10:05:32.252Z",
+        "obsTime": 1779184800,
+        "reportTime": "2026-05-19T10:00:00.000Z",
+        "temp": 29,
+        "dewp": 26,
+        "wdir": 210,
+        "wspd": 6,
+        "visib": 5.59,
+        "altim": 1004,
+        "qcField": 0,
+        "metarType": "METAR",
+        "rawOb": "METAR VTBO 191000Z 21006KT 9000 SCT020 BKN100 29/26 Q1004",
+        "lat": 12.275,
+        "lon": 102.319,
+        "elev": 25,
+        "name": "Trat Arpt, 23, TH",
+        "cover": "BKN",
+        "clouds": [
+            {
+                "cover": "SCT",
+                "base": 2000
+            },
+            {
+                "cover": "BKN",
+                "base": 10000
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VTUK",
+        "receiptTime": "2026-05-19T10:05:38.292Z",
+        "obsTime": 1779184800,
+        "reportTime": "2026-05-19T10:00:00.000Z",
+        "temp": 27,
+        "dewp": 24,
+        "wdir": "VRB",
+        "wspd": 2,
+        "visib": 5.59,
+        "altim": 1003,
+        "qcField": 16,
+        "wxString": "-RA",
+        "metarType": "METAR",
+        "rawOb": "METAR VTUK 191000Z VRB02KT 9000 -RA SCT030 BKN100 27/24 Q1003 NOSIG",
+        "lat": 16.462,
+        "lon": 102.786,
+        "elev": 190,
+        "name": "Khon Kaen Arpt, 40, TH",
+        "cover": "BKN",
+        "clouds": [
+            {
+                "cover": "SCT",
+                "base": 3000
+            },
+            {
+                "cover": "BKN",
+                "base": 10000
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VTUD",
+        "receiptTime": "2026-05-19T10:06:17.691Z",
+        "obsTime": 1779184800,
+        "reportTime": "2026-05-19T10:00:00.000Z",
+        "temp": 24,
+        "dewp": 24,
+        "wdir": 120,
+        "wspd": 6,
+        "visib": 3.73,
+        "altim": 1003,
+        "qcField": 0,
+        "wxString": "-TSRA",
+        "metarType": "METAR",
+        "rawOb": "METAR VTUD 191000Z 12006KT 080V170 6000 -TSRA FEW018CB BKN025 BKN080 24/24 Q1003 RERA BECMG TL1030 NSW",
+        "lat": 17.382,
+        "lon": 102.799,
+        "elev": 177,
+        "name": "Udon Thani Arpt, 41, TH",
+        "cover": "BKN",
+        "clouds": [
+            {
+                "cover": "FEW",
+                "base": 1800
+            },
+            {
+                "cover": "BKN",
+                "base": 2500
+            },
+            {
+                "cover": "BKN",
+                "base": 8000
+            }
+        ],
+        "fltCat": "MVFR"
+    },
+    {
+        "icaoId": "VTUO",
+        "receiptTime": "2026-05-19T10:05:38.391Z",
+        "obsTime": 1779184800,
+        "reportTime": "2026-05-19T10:00:00.000Z",
+        "temp": 26,
+        "dewp": 25,
+        "wdir": 140,
+        "wspd": 4,
+        "visib": 5.59,
+        "altim": 1002,
+        "qcField": 16,
+        "metarType": "METAR",
+        "rawOb": "METAR VTUO 191000Z 14004KT 9000 SCT025 BKN080 26/25 Q1002 NOSIG",
+        "lat": 15.227,
+        "lon": 103.244,
+        "elev": 182,
+        "name": "Buriram Arpt, 31, TH",
+        "cover": "BKN",
+        "clouds": [
+            {
+                "cover": "SCT",
+                "base": 2500
+            },
+            {
+                "cover": "BKN",
+                "base": 8000
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VTUV",
+        "receiptTime": "2026-05-19T10:05:38.552Z",
+        "obsTime": 1779184800,
+        "reportTime": "2026-05-19T10:00:00.000Z",
+        "temp": 28,
+        "dewp": 27,
+        "wdir": 210,
+        "wspd": 9,
+        "visib": 5.59,
+        "altim": 1002,
+        "qcField": 16,
+        "wxString": "-RA",
+        "metarType": "METAR",
+        "rawOb": "METAR VTUV 191000Z 21009KT 9000 -RA SCT025 SCT070 28/27 Q1002 NOSIG",
+        "lat": 16.117,
+        "lon": 103.772,
+        "elev": 136,
+        "name": "Roi Et Arpt, 45, TH",
+        "cover": "SCT",
+        "clouds": [
+            {
+                "cover": "SCT",
+                "base": 2500
+            },
+            {
+                "cover": "SCT",
+                "base": 7000
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VTUW",
+        "receiptTime": "2026-05-19T10:05:38.612Z",
+        "obsTime": 1779184800,
+        "reportTime": "2026-05-19T10:00:00.000Z",
+        "temp": 31,
+        "dewp": 26,
+        "wdir": "VRB",
+        "wspd": 2,
+        "visib": "6+",
+        "altim": 1002,
+        "qcField": 16,
+        "metarType": "METAR",
+        "rawOb": "METAR VTUW 191000Z VRB02KT 9999 SCT030 31/26 Q1002 NOSIG",
+        "lat": 17.384,
+        "lon": 104.643,
+        "elev": 167,
+        "name": "Nakhon Phanom Arpt, 48, TH",
+        "cover": "SCT",
+        "clouds": [
+            {
+                "cover": "SCT",
+                "base": 3000
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VLSK",
+        "receiptTime": "2026-05-19T10:05:33.418Z",
+        "obsTime": 1779184800,
+        "reportTime": "2026-05-19T10:00:00.000Z",
+        "temp": 28,
+        "dewp": 24,
+        "wdir": 90,
+        "wspd": 2,
+        "visib": 3.73,
+        "altim": 1006,
+        "qcField": 16,
+        "metarType": "METAR",
+        "rawOb": "METAR VLSK 191000Z 09002KT 6000 SCT020 BKN100 28/24 Q1006 NOSIG",
+        "lat": 16.557,
+        "lon": 104.76,
+        "elev": 148,
+        "name": "Savannakhet Arpt, SV, LA",
+        "cover": "BKN",
+        "clouds": [
+            {
+                "cover": "SCT",
+                "base": 2000
+            },
+            {
+                "cover": "BKN",
+                "base": 10000
+            }
+        ],
+        "fltCat": "MVFR"
+    },
+    {
+        "icaoId": "VTUU",
+        "receiptTime": "2026-05-19T10:05:38.516Z",
+        "obsTime": 1779184800,
+        "reportTime": "2026-05-19T10:00:00.000Z",
+        "temp": 32,
+        "dewp": 26,
+        "wdir": 130,
+        "wspd": 5,
+        "visib": "6+",
+        "altim": 1002,
+        "qcField": 16,
+        "metarType": "METAR",
+        "rawOb": "METAR VTUU 191000Z 13005KT 090V200 9999 SCT035 32/26 Q1002 NOSIG",
+        "lat": 15.251,
+        "lon": 104.87,
+        "elev": 119,
+        "name": "Ubon Ratchathan Intl, 34, TH",
+        "cover": "SCT",
+        "clouds": [
+            {
+                "cover": "SCT",
+                "base": 3500
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VTSY",
+        "receiptTime": "2026-05-19T10:05:37.948Z",
+        "obsTime": 1779184800,
+        "reportTime": "2026-05-19T10:00:00.000Z",
+        "temp": 30,
+        "dewp": 24,
+        "wdir": 240,
+        "wspd": 6,
+        "visib": "6+",
+        "altim": 1007,
+        "qcField": 16,
+        "metarType": "METAR",
+        "rawOb": "METAR VTSY 191000Z 24006KT 9999 FEW030 SCT045 30/24 Q1007 NOSIG",
+        "lat": 5.788,
+        "lon": 101.147,
+        "elev": 225,
+        "name": "Yala/Betong Arpt, 95, TH",
+        "cover": "SCT",
+        "clouds": [
+            {
+                "cover": "FEW",
+                "base": 3000
+            },
+            {
+                "cover": "SCT",
+                "base": 4500
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VTPM",
+        "receiptTime": "2026-05-19T10:05:32.219Z",
+        "obsTime": 1779184800,
+        "reportTime": "2026-05-19T10:00:00.000Z",
+        "temp": 30,
+        "dewp": 26,
+        "wdir": 230,
+        "wspd": 9,
+        "visib": "6+",
+        "altim": 1002,
+        "qcField": 16,
+        "metarType": "METAR",
+        "rawOb": "METAR VTPM 191000Z 23009KT 9999 FEW020CB SCT030 30/26 Q1002 NOSIG",
+        "lat": 16.703,
+        "lon": 98.542,
+        "elev": 211,
+        "name": "Mae Sot Arpt, 63, TH",
+        "cover": "SCT",
+        "clouds": [
+            {
+                "cover": "FEW",
+                "base": 2000
+            },
+            {
+                "cover": "SCT",
+                "base": 3000
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VTSR",
+        "receiptTime": "2026-05-19T10:05:37.861Z",
+        "obsTime": 1779184800,
+        "reportTime": "2026-05-19T10:00:00.000Z",
+        "temp": 24,
+        "dewp": 23,
+        "wdir": "VRB",
+        "wspd": 2,
+        "visib": 4.35,
+        "altim": 1006,
+        "qcField": 16,
+        "wxString": "-RA",
+        "metarType": "METAR",
+        "rawOb": "METAR VTSR 191000Z VRB02KT 7000 -RA SCT015 BKN100 24/23 Q1006 NOSIG",
+        "lat": 9.773,
+        "lon": 98.587,
+        "elev": 23,
+        "name": "Ranong Arpt, 85, TH",
+        "cover": "BKN",
+        "clouds": [
+            {
+                "cover": "SCT",
+                "base": 1500
+            },
+            {
+                "cover": "BKN",
+                "base": 10000
+            }
+        ],
+        "fltCat": "MVFR"
+    },
+    {
+        "icaoId": "VTSB",
+        "receiptTime": "2026-05-19T10:05:37.536Z",
+        "obsTime": 1779184800,
+        "reportTime": "2026-05-19T10:00:00.000Z",
+        "temp": 26,
+        "dewp": 26,
+        "wdir": 190,
+        "wspd": 6,
+        "visib": "6+",
+        "altim": 1004,
+        "qcField": 16,
+        "metarType": "METAR",
+        "rawOb": "METAR VTSB 191000Z 19006KT 9999 FEW010 SCT100 26/26 Q1004 NOSIG",
+        "lat": 9.133,
+        "lon": 99.152,
+        "elev": 10,
+        "name": "Surat Thani Intl, 84, TH",
+        "cover": "SCT",
+        "clouds": [
+            {
+                "cover": "FEW",
+                "base": 1000
+            },
+            {
+                "cover": "SCT",
+                "base": 10000
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VTSE",
+        "receiptTime": "2026-05-19T10:05:37.704Z",
+        "obsTime": 1779184800,
+        "reportTime": "2026-05-19T10:00:00.000Z",
+        "temp": 29,
+        "dewp": 24,
+        "wdir": 290,
+        "wspd": 8,
+        "visib": "6+",
+        "altim": 1003,
+        "qcField": 16,
+        "metarType": "METAR",
+        "rawOb": "METAR VTSE 191000Z 29008KT 240V320 9999 FEW020 29/24 Q1003 NOSIG",
+        "lat": 10.711,
+        "lon": 99.362,
+        "elev": 8,
+        "name": "Chumphon Arpt, 86, TH",
+        "cover": "FEW",
+        "clouds": [
+            {
+                "cover": "FEW",
+                "base": 2000
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VTST",
+        "receiptTime": "2026-05-19T10:05:37.887Z",
+        "obsTime": 1779184800,
+        "reportTime": "2026-05-19T10:00:00.000Z",
+        "temp": 27,
+        "dewp": 27,
+        "wdir": 150,
+        "wspd": 3,
+        "visib": "6+",
+        "altim": 1006,
+        "qcField": 16,
+        "metarType": "METAR",
+        "rawOb": "METAR VTST 191000Z 15003KT 100V190 9999 SCT020 SCT100 27/27 Q1006 NOSIG",
+        "lat": 7.512,
+        "lon": 99.621,
+        "elev": 17,
+        "name": "Trang Arpt, 92, TH",
+        "cover": "SCT",
+        "clouds": [
+            {
+                "cover": "SCT",
+                "base": 2000
+            },
+            {
+                "cover": "SCT",
+                "base": 10000
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VTCT",
+        "receiptTime": "2026-05-19T10:05:32.339Z",
+        "obsTime": 1779184800,
+        "reportTime": "2026-05-19T10:00:00.000Z",
+        "temp": 34,
+        "dewp": 23,
+        "wdir": 160,
+        "wspd": 6,
+        "visib": "6+",
+        "altim": 1001,
+        "qcField": 16,
+        "metarType": "METAR",
+        "rawOb": "METAR VTCT 191000Z 16006KT 120V210 9999 FEW030 34/23 Q1001 NOSIG",
+        "lat": 19.961,
+        "lon": 99.881,
+        "elev": 389,
+        "name": "Chiang Rai Intl, 57, TH",
+        "cover": "FEW",
+        "clouds": [
+            {
+                "cover": "FEW",
+                "base": 3000
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VTSF",
+        "receiptTime": "2026-05-19T10:05:37.778Z",
+        "obsTime": 1779184800,
+        "reportTime": "2026-05-19T10:00:00.000Z",
+        "temp": 30,
+        "dewp": 24,
+        "wdir": 320,
+        "wspd": 5,
+        "visib": "6+",
+        "altim": 1004,
+        "qcField": 16,
+        "metarType": "METAR",
+        "rawOb": "METAR VTSF 191000Z 32005KT 290V350 9999 FEW018 SCT100 30/24 Q1004 NOSIG",
+        "lat": 8.546,
+        "lon": 99.94,
+        "elev": 6,
+        "name": "Nakhon Si Thammarat Arpt, 80, TH",
+        "cover": "SCT",
+        "clouds": [
+            {
+                "cover": "FEW",
+                "base": 1800
+            },
+            {
+                "cover": "SCT",
+                "base": 10000
+            }
+        ],
+        "fltCat": "VFR"
+    },
+    {
+        "icaoId": "VTPH",
+        "receiptTime": "2026-05-19T10:05:32.066Z",
+        "obsTime": 1779184800,
+        "reportTime": "2026-05-19T10:00:00.000Z",
+        "temp": 31,
+        "dewp": 25,
+        "wdir": 110,
+        "wspd": 4,
+        "visib": "6+",
+        "altim": 1002,
+        "qcField": 16,
+        "metarType": "METAR",
+        "rawOb": "METAR VTPH 191000Z 11004KT 070V150 9999 BKN030 31/25 Q1002 NOSIG",
+        "lat": 12.633,
+        "lon": 99.951,
+        "elev": 12,
+        "name": "Hua Hin Arpt, 77, TH",
+        "cover": "BKN",
+        "clouds": [
+            {
+                "cover": "BKN",
+                "base": 3000
+            }
+        ],
+        "fltCat": "MVFR"
     }
 ]
