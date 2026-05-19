@@ -1,311 +1,385 @@
-# Tasks
+# Tasks.md — METAR-Based Weather Heatmap Rendering
 
-# Current Status
+## Phase 3: Layer-Specific Heatmap Rendering
 
-Already completed:
-- Created React + TypeScript project using Vite
-- Installed `@vis.gl/react-google-maps`
+### Goal
 
----
+Implement weather heatmap rendering so that each weather layer uses data from an AviationWeather METAR-style response and renders with layer-specific behavior.
 
-# Task 1 — Clean Project Structure
+Each layer must support:
 
-Create folders:
+- Radius
+- Intensity / weight
+- Gradient color
+- Opacity
+- Max intensity
+- Zoom-based scaling
+- Layer-specific data mapping
 
-```txt
-src/app
-src/components/common
-src/config
-src/features/weather-map/components
-src/features/weather-map/data
-src/features/weather-map/types
-src/styles
-```
+The rendered heatmap must visually match the provided weather data values and remain readable at different Google Maps zoom levels.
 
-Move:
+Reference:
 
-```txt
-src/App.tsx
-```
-
-to:
-
-```txt
-src/app/App.tsx
-```
-
-Acceptance Criteria:
-- Folder structure matches architecture
-- App still runs
-- No broken import paths
+- https://aviationweather.gov/help/data/#metar
+- `Readme/aviationweather-heatmap-api-summary.md`
+- `src/features/weather-map/data/mockResponse.json`
 
 ---
 
-# Task 2 — Setup Environment Config
+## Supported Weather Layers
 
-Create `.env`
+The app must support:
 
-```env
-VITE_GOOGLE_MAPS_API_KEY=your_google_maps_api_key
-```
+1. Weather Radar
+2. Temperature
+3. Wind
+4. Rain
+5. Thunderstorm
 
-Create:
+Each layer must have its own:
 
-```txt
-src/config/env.ts
-```
+- Data mapping logic
+- Radius calculation
+- Intensity calculation
+- Gradient color
+- Max intensity
+- Opacity
+- Zoom adjustment rule
 
-Add:
+---
+
+## Task 1 — Define Shared Layer Rendering Model
+
+### Objective
+
+Create a reusable model for all heatmap layers.
+
+### Tasks
+
+- Define `WeatherLayerType`.
+- Define `WeatherHeatmapPoint`.
+- Define layer rendering config type.
+- Support these layer ids:
+  - `radar`
+  - `temperature`
+  - `wind`
+  - `rain`
+  - `thunderstorm`
+
+### Suggested Model
 
 ```ts
-export const env = {
-  googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string
-};
-```
+export type WeatherLayerType =
+  | "radar"
+  | "temperature"
+  | "wind"
+  | "rain"
+  | "thunderstorm";
 
-Acceptance Criteria:
-- API key is read from env.ts
-- No hardcoded API key
-- App can access Google Maps API key correctly
-
----
-
-# Task 3 — Render Basic Google Map First
-
-Goal:
-Render Google Map successfully before implementing Heatmap.
-
-Create:
-
-```txt
-src/features/weather-map/components/WeatherMap.tsx
-```
-
-Requirements:
-- Use `APIProvider`
-- Use `Map`
-- Use API key from `env.ts`
-- Center map on Bangkok
-- Default zoom around 11
-- Map container must have visible height
-
-Default center:
-
-```ts
-const defaultCenter = {
-  lat: 13.7563,
-  lng: 100.5018
-};
-```
-
-Update:
-
-```txt
-src/app/App.tsx
-```
-
-Requirements:
-- Render page title
-- Render short description
-- Render `WeatherMap`
-
-Acceptance Criteria:
-- Google Map renders successfully
-- Map centers on Bangkok
-- No TypeScript errors
-- No API key hardcoded
-- User can interact with map normally
-
----
-
-# Task 4 — Add Basic Styling
-
-Update:
-
-```txt
-src/styles/global.css
-src/app/App.css
-```
-
-Requirements:
-- Map has visible height
-- Responsive layout
-- Clean layout for POC
-
-Acceptance Criteria:
-- Map fully visible
-- No overflow issue
-- Layout looks clean
-
----
-
-# Task 5 — Create Weather Types
-
-Create:
-
-```txt
-src/features/weather-map/types/weatherMap.types.ts
-```
-
-Add:
-
-```ts
-export type WeatherPoint = {
+export interface WeatherHeatmapPoint {
+  id: string;
   lat: number;
   lng: number;
-  weight: number;
-};
+  value: number;
+  unit?: string;
+  temperatureC?: number;
+  windKt?: number;
+  gustKt?: number;
+  rainfallMmHr?: number;
+  radarDbz?: number;
+  thunderstormSeverity?: number;
+  visibilityKm?: number;
+  weight?: number;
+  radius?: number;
+}
 ```
 
-Acceptance Criteria:
-- Type exported successfully
-- Type usable across feature
+### Acceptance Criteria
+
+- Shared types are available from the weather-map feature.
+- TypeScript build passes.
 
 ---
 
-# Task 6 — Create Mock Weather Data
+## Task 2 — Align METAR Raw Type With AviationWeather API
 
-Create:
+### Objective
 
-```txt
-src/features/weather-map/data/mockWeatherPoints.ts
-```
+Represent the actual METAR response shape used by `mockResponse.json`.
 
-Example:
+### Tasks
 
-```ts
-import type { WeatherPoint } from "../types/weatherMap.types";
+- Update or create `MetarObservation`.
+- Include useful METAR fields:
+  - `icaoId`
+  - `lat`
+  - `lon`
+  - `name`
+  - `temp`
+  - `dewp`
+  - `wdir`
+  - `wspd`
+  - `wgst`
+  - `visib`
+  - `wxString`
+  - `precip`
+  - `cover`
+  - `clouds`
+  - `fltCat`
+  - `rawOb`
+  - `reportTime`
 
-export const mockWeatherPoints: WeatherPoint[] = [
-  { lat: 13.7563, lng: 100.5018, weight: 0.8 },
-  { lat: 13.7367, lng: 100.5231, weight: 0.6 },
-  { lat: 13.7200, lng: 100.5300, weight: 0.9 },
-  { lat: 13.7650, lng: 100.5380, weight: 0.7 }
-];
-```
+### Acceptance Criteria
 
-Acceptance Criteria:
-- Mock data available
-- All items contain lat/lng/weight
-
----
-
-# Task 7 — Create WeatherHeatmapLayer Component
-
-Create:
-
-```txt
-src/features/weather-map/components/WeatherHeatmapLayer.tsx
-```
-
-Requirements:
-- Accept `points: WeatherPoint[]`
-- Use `useMap()`
-- Use `useMapsLibrary("visualization")`
-- Create `google.maps.visualization.HeatmapLayer`
-- Convert weather points into heatmap points
-- Set heatmap data
-- Cleanup on unmount
-
-Acceptance Criteria:
-- Heatmap layer appears correctly
-- No duplicate heatmap layers
-- Cleanup works correctly
+- `mockResponse.json` can be typed safely enough for mapper usage.
+- Optional fields are handled without runtime crashes.
 
 ---
 
-# Task 8 — Integrate Heatmap Into WeatherMap
+## Task 3 — Use `mockResponse.json` As Main Mock Source
 
-Update:
+### Objective
 
-```txt
-src/features/weather-map/components/WeatherMap.tsx
-```
+Use the real API-like mock response as the source of all weather layer data.
 
-Requirements:
-- Import mock weather data
-- Render `WeatherHeatmapLayer`
-- Pass weather points into heatmap component
+### Tasks
 
-Acceptance Criteria:
-- Heatmap visible on map
-- Heatmap updates correctly
-- No runtime errors
+- Import `src/features/weather-map/data/mockResponse.json`.
+- Enable JSON import in TypeScript if needed.
+- Validate observations before mapping.
+- Filter out records without valid `lat` / `lon`.
 
----
+### Acceptance Criteria
 
-# Task 9 — Create Feature Export
-
-Create:
-
-```txt
-src/features/weather-map/index.ts
-```
-
-Export:
-
-```ts
-export { WeatherMap } from "./components/WeatherMap";
-```
-
-Acceptance Criteria:
-- Feature import works correctly
+- The app no longer depends on hand-written `WeatherPoint[]` as the primary source.
+- Build passes after importing JSON.
 
 ---
 
-# Task 10 — Add Error Handling
+## Task 4 — Create Per-Layer METAR Mappers
 
-Handle:
-- Missing API key
-- Empty weather data
-- Visualization library not ready
-- Map not ready
+### Objective
 
-Requirements:
-- Show readable UI message
-- Prevent app crash
+Map METAR observations into heatmap points differently for each weather layer.
 
-Acceptance Criteria:
-- App handles errors gracefully
-- No blank white screen
+### Tasks
+
+- Create mapper functions for:
+  - radar
+  - temperature
+  - wind
+  - rain
+  - thunderstorm
+- Keep mapping logic separate from React components.
+- Return `WeatherHeatmapPoint[]` or a compatible layer point model.
+
+### Acceptance Criteria
+
+- Each layer can produce its own mapped heatmap data.
+- Mapper functions are testable without rendering the map.
 
 ---
 
-# Task 11 — Build Validation
+## Task 5 — Define Intensity / Weight Rules
 
-Run:
+### Objective
+
+Calculate heatmap intensity from real METAR fields.
+
+### Suggested Rules
+
+#### Radar
+
+Use a composite score from:
+
+- `wxString`
+- `precip`
+- `cover`
+- `clouds`
+- `fltCat`
+- `visib`
+
+#### Temperature
+
+Use:
+
+- `temp`
+
+Normalize Celsius values into heatmap weight.
+
+#### Wind
+
+Use:
+
+- `wspd`
+- `wgst`
+
+Gust should increase intensity.
+
+#### Rain
+
+Use:
+
+- `precip`
+- `wxString` codes such as `RA`, `SHRA`, `-RA`, `+RA`
+
+#### Thunderstorm
+
+Use:
+
+- `TS`
+- `VCTS`
+- `TSRA`
+- `wgst`
+- low visibility
+- `fltCat`
+
+### Acceptance Criteria
+
+- Each layer has a clearly documented weight calculation.
+- Missing values do not produce `NaN`.
+
+---
+
+## Task 6 — Define Layer Gradients
+
+### Objective
+
+Give each layer a distinct visual style.
+
+### Suggested Gradients
+
+- Radar: transparent → blue → green → yellow → red
+- Temperature: blue → cyan → yellow → orange → red
+- Wind: cyan → blue → purple
+- Rain: transparent → light blue → deep blue
+- Thunderstorm: yellow → orange → red → purple
+
+### Acceptance Criteria
+
+- Switching layers visibly changes the heatmap color scale.
+- Gradient config is not hardcoded inside the React component body.
+
+---
+
+## Task 7 — Define Radius And Zoom Scaling Rules
+
+### Objective
+
+Make radius responsive to Google Maps zoom level.
+
+### Tasks
+
+- Create one radius rule per layer.
+- Use smaller radius when zoomed out.
+- Use larger radius when zoomed in.
+- Avoid country-level blobs when zoomed out.
+- Avoid tiny dots when zoomed in.
+
+### Suggested Behavior
+
+- Temperature: wider radius, smooth field.
+- Wind: medium radius, regional field.
+- Rain: smaller radius, localized precipitation.
+- Radar: medium dynamic radius.
+- Thunderstorm: compact but strong radius.
+
+### Acceptance Criteria
+
+- Heatmap remains readable across zoom levels.
+- Map has reasonable `minZoom` and `maxZoom`.
+
+---
+
+## Task 8 — Refactor `WeatherHeatmapLayer`
+
+### Objective
+
+Make the heatmap renderer consume layer-specific config.
+
+### Tasks
+
+- Pass selected layer config into `WeatherHeatmapLayer`.
+- Apply:
+  - `gradient`
+  - `opacity`
+  - `maxIntensity`
+  - dynamic radius
+- Update radius when `zoom_changed` fires.
+- Cleanup map listeners and heatmap layer on unmount.
+
+### Acceptance Criteria
+
+- No duplicate heatmap layers after switching layer.
+- No stale listeners after unmount.
+- TypeScript build passes.
+
+---
+
+## Task 9 — Connect Layer Buttons To Layer Config
+
+### Objective
+
+Use one centralized layer config for UI and heatmap rendering.
+
+### Tasks
+
+- Render layer buttons from config.
+- Add Thunderstorm button.
+- On click, update selected layer state.
+- Selected layer changes:
+  - data
+  - gradient
+  - opacity
+  - max intensity
+  - radius behavior
+
+### Acceptance Criteria
+
+- User can switch all five layers.
+- Active button state is visible.
+- Heatmap visibly changes per layer.
+
+---
+
+## Task 10 — Validate Visual Output
+
+### Objective
+
+Confirm the implementation works in browser and build.
+
+### Tasks
+
+- Run:
 
 ```bash
 npm run build
 ```
 
-Acceptance Criteria:
-- Build passes
-- No TypeScript errors
-- No critical warnings
+- Open the local app.
+- Test switching:
+  - Weather Radar
+  - Temperature
+  - Wind
+  - Rain
+  - Thunderstorm
+- Test zoom in and zoom out.
+- Check console errors.
+
+### Acceptance Criteria
+
+- Build passes.
+- No TypeScript errors.
+- No runtime error-level console logs.
+- Heatmap changes style and intensity per layer.
+- Zoom behavior remains readable.
 
 ---
 
-# Expected Final Result
+## Future Improvements
 
-The application should:
-- Render Google Maps
-- Center on Bangkok
-- Display weather heatmap
-- Use mock weather data
-- Follow feature-based architecture
-- Be scalable for future API integration
-
----
-
-# Future Enhancements
-
-Future improvements:
-- Real weather API integration
-- Weather filters
-- Marker popup details
-- Time-based heatmap
-- Unit tests
-- Loading states
-- Dark mode
-- Custom map themes
+- Replace Google HeatmapLayer with a raster/tile overlay if radar-like rendering needs to match real weather radar imagery.
+- Add tooltips or station detail popups.
+- Add timestamp display from METAR `reportTime`.
+- Add real API fetch behind a service layer.
+- Add tests for mapper normalization rules.

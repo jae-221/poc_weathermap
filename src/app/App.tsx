@@ -1,4 +1,4 @@
-import { WeatherMap } from '../features/weather-map/components/WeatherMap'
+import { WeatherMap } from '../features/weather-map'
 import './App.css'
 
 function App() {

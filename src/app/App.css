@@ -1,32 +1,35 @@
 .app-shell {
-  width: min(1120px, calc(100% - 32px));
+  width: min(1280px, calc(100% - 48px));
   margin: 0 auto;
-  padding: 40px 0;
+  padding: 44px 0;
 }
 
 .app-header {
-  margin-bottom: 24px;
+  margin-bottom: 28px;
   text-align: left;
 }
 
 .app-header h1 {
-  margin: 0 0 8px;
+  margin: 0 0 6px;
+  line-height: 1.05;
 }
 
 .app-header p {
   max-width: 680px;
+  font-size: 1.05rem;
 }
 
 .map-panel {
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: 8px;
+  background: var(--surface);
 }
 
 @media (max-width: 720px) {
   .app-shell {
     width: min(100% - 24px, 1120px);
-    padding: 24px 0;
+    padding: 28px 0;
   }
 
   .map-panel {
