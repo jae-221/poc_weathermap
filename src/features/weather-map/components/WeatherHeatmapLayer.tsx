@@ -29,7 +29,7 @@ export function WeatherHeatmapLayer({ points }: WeatherHeatmapLayerProps) {
     const heatmapLayer = new visualization.HeatmapLayer({
       data: toWeightedLocations(points, core.LatLng),
       dissipating: true,
-      radius: 48,
+      radius: 148,
     })
 
     heatmapLayer.setMap(map)
