@@ -3,6 +3,9 @@ export type WeatherLayerType =
   | 'wind'
   | 'rain'
   | 'thunderstorm'
+  | 'visibility'
+  | 'fog'
+  | 'cloudCoverage'
 
 export type WeatherHeatmapPoint = {
   id: string
@@ -71,6 +74,7 @@ export type MetarCloudLayer = {
 
 export type MetarObservation = {
   altim?: number
+  ceil?: number
   clouds?: MetarCloudLayer[]
   cover?: MetarCloudCover | string
   dewp?: number
@@ -81,7 +85,7 @@ export type MetarObservation = {
   lon: number
   metarType?: MetarReportType
   name: string
-  obsTime?: number
+  obsTime?: number | string
   pcp3hr?: number
   precip?: number
   presTend?: number
@@ -98,3 +102,44 @@ export type MetarObservation = {
   wspd?: number
   wxString?: string
 }
+
+export type GeoJsonPoint = {
+  coordinates: [number, number, ...number[]]
+  type: 'Point'
+}
+
+export type GeoJsonFeature<
+  TGeometry = GeoJsonPoint,
+  TProperties = Record<string, unknown>,
+> = {
+  geometry: TGeometry | null
+  properties: TProperties | null
+  type: 'Feature'
+}
+
+export type GeoJsonFeatureCollection<
+  TGeometry = GeoJsonPoint,
+  TProperties = Record<string, unknown>,
+> = {
+  features: GeoJsonFeature<TGeometry, TProperties>[]
+  type: 'FeatureCollection'
+}
+
+export type MetarGeoJsonProperties = Omit<MetarObservation, 'lat' | 'lon'> & {
+  fltcat?: MetarObservation['fltCat']
+  id?: string
+  lat?: never
+  lon?: never
+  site?: string
+  wx?: string | null
+}
+
+export type MetarGeoJsonFeature = GeoJsonFeature<
+  GeoJsonPoint,
+  Partial<MetarGeoJsonProperties>
+>
+
+export type MetarGeoJsonFeatureCollection = GeoJsonFeatureCollection<
+  GeoJsonPoint,
+  Partial<MetarGeoJsonProperties>
+>

@@ -12,6 +12,16 @@ const flightCategoryScores: Record<NonNullable<MetarObservation['fltCat']>, numb
   VFR: 0.18,
 }
 
+const cloudCoverScores: Record<string, number> = {
+  BKN: 0.74,
+  CAVOK: 0,
+  CLR: 0,
+  FEW: 0.18,
+  OVC: 0.95,
+  OVX: 1,
+  SCT: 0.42,
+}
+
 function clamp(value: number, min = 0, max = 1) {
   return Math.min(max, Math.max(min, value))
 }
@@ -83,6 +93,68 @@ function getThunderstormSignal(observation: MetarObservation) {
   )
 }
 
+function getVisibilitySignal(observation: MetarObservation) {
+  const visibility = parseVisibility(observation.visib)
+  const visibilityScore = clamp((10 - visibility) / 8)
+  const fltCatScore = observation.fltCat
+    ? flightCategoryScores[observation.fltCat]
+    : 0
+
+  return clamp(Math.max(visibilityScore, fltCatScore * 0.86), 0.05)
+}
+
+function getFogSignal(observation: MetarObservation) {
+  const fogCodeScore = hasWeatherCode(observation, [
+    'BCFG',
+    'BR',
+    'FZFG',
+    'FG',
+    'MIFG',
+    'PRFG',
+  ])
+    ? 0.84
+    : 0
+  const visibilityScore = clamp((6 - parseVisibility(observation.visib)) / 5)
+  const dewpointSpread =
+    typeof observation.temp === 'number' && typeof observation.dewp === 'number'
+      ? Math.abs(observation.temp - observation.dewp)
+      : undefined
+  const saturationScore =
+    typeof dewpointSpread === 'number' ? clamp((4 - dewpointSpread) / 4) : 0
+
+  return clamp(
+    Math.max(fogCodeScore, visibilityScore * 0.72) + saturationScore * 0.18,
+  )
+}
+
+function getCloudCoverScore(cover?: MetarObservation['cover']) {
+  if (!cover) {
+    return 0
+  }
+
+  return cloudCoverScores[String(cover).toUpperCase()] ?? 0
+}
+
+function getCloudCoverageSignal(observation: MetarObservation) {
+  const coverScore = getCloudCoverScore(observation.cover)
+  const cloudLayerScore =
+    observation.clouds?.reduce(
+      (score, cloud) => Math.max(score, getCloudCoverScore(cloud.cover)),
+      0,
+    ) ?? 0
+  const ceilingScore =
+    typeof observation.ceil === 'number' ? clamp((80 - observation.ceil) / 80) : 0
+  const fltCatScore = observation.fltCat
+    ? flightCategoryScores[observation.fltCat]
+    : 0
+
+  return clamp(
+    Math.max(coverScore, cloudLayerScore) * 0.76 +
+      Math.max(ceilingScore, fltCatScore) * 0.24,
+    0.04,
+  )
+}
+
 function getSignal(observation: MetarObservation, layer: WeatherLayerType) {
   if (layer === 'rain') {
     return getRainSignal(observation)
@@ -98,6 +170,18 @@ function getSignal(observation: MetarObservation, layer: WeatherLayerType) {
 
   if (layer === 'thunderstorm') {
     return getThunderstormSignal(observation)
+  }
+
+  if (layer === 'visibility') {
+    return getVisibilitySignal(observation)
+  }
+
+  if (layer === 'fog') {
+    return getFogSignal(observation)
+  }
+
+  if (layer === 'cloudCoverage') {
+    return getCloudCoverageSignal(observation)
   }
 
   return getTemperatureSignal(observation)
@@ -123,6 +207,22 @@ function hasLayerValue(observation: MetarObservation, layer: WeatherLayerType) {
     return getThunderstormSignal(observation) > 0
   }
 
+  if (layer === 'visibility') {
+    return typeof observation.visib === 'number' || typeof observation.visib === 'string'
+  }
+
+  if (layer === 'fog') {
+    return getFogSignal(observation) > 0
+  }
+
+  if (layer === 'cloudCoverage') {
+    return (
+      Boolean(observation.cover) ||
+      typeof observation.ceil === 'number' ||
+      Boolean(observation.clouds?.length)
+    )
+  }
+
   return true
 }
 
@@ -141,6 +241,18 @@ function getClusterSize(layer: WeatherLayerType) {
 
   if (layer === 'thunderstorm') {
     return { radiusLat: 0.32, radiusLng: 0.36 }
+  }
+
+  if (layer === 'visibility') {
+    return { radiusLat: 0.5, radiusLng: 0.58 }
+  }
+
+  if (layer === 'fog') {
+    return { radiusLat: 0.36, radiusLng: 0.42 }
+  }
+
+  if (layer === 'cloudCoverage') {
+    return { radiusLat: 0.62, radiusLng: 0.68 }
   }
 
   return { radiusLat: 0.38, radiusLng: 0.42 }

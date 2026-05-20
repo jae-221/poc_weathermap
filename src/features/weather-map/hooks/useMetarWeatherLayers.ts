@@ -21,9 +21,12 @@ type WeatherDataState = {
 }
 
 const pointsPerStationByLayer: Record<WeatherLayerType, number> = {
+  cloudCoverage: 7,
+  fog: 8,
   rain: 8,
   temperature: 6,
   thunderstorm: 8,
+  visibility: 7,
   wind: 6,
 }
 

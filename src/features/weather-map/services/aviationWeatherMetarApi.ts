@@ -1,11 +1,15 @@
-import type { MetarObservation } from '../types/weatherMap.types'
+import type {
+  MetarGeoJsonFeature,
+  MetarGeoJsonFeatureCollection,
+  MetarObservation,
+} from '../types/weatherMap.types'
 
 const AVIATION_WEATHER_BASE_URL = '/api/aviationweather/metar'
 const AVIATION_WEATHER_BBOX = '5.5,97.0,20.5,106.0'
 
 export const METAR_CACHE_TTL_MS = 60 * 60 * 1000
 export const METAR_CACHE_KEY =
-  `poc-weathermap:aviationweather:metar:bbox:${AVIATION_WEATHER_BBOX}`
+  `poc-weathermap:aviationweather:metar:geojson:bbox:${AVIATION_WEATHER_BBOX}`
 
 type CachedMetarPayload = {
   cachedAt: number
@@ -22,7 +26,7 @@ export type MetarFetchResult = {
 export function getAviationWeatherMetarUrl() {
   const params = new URLSearchParams({
     bbox: AVIATION_WEATHER_BBOX,
-    format: 'json',
+    format: 'geojson',
   })
 
   return `${AVIATION_WEATHER_BASE_URL}?${params.toString()}`
@@ -39,6 +43,96 @@ export function isValidMetarObservation(
     typeof observation.lon === 'number' &&
     Number.isFinite(observation.lon)
   )
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null
+}
+
+function isMetarGeoJsonFeatureCollection(
+  value: unknown,
+): value is MetarGeoJsonFeatureCollection {
+  return (
+    isRecord(value) &&
+    value.type === 'FeatureCollection' &&
+    Array.isArray(value.features)
+  )
+}
+
+function isMetarGeoJsonFeature(
+  feature: unknown,
+): feature is MetarGeoJsonFeature {
+  if (!isRecord(feature) || feature.type !== 'Feature') {
+    return false
+  }
+
+  const geometry = feature.geometry
+
+  return (
+    isRecord(geometry) &&
+    geometry.type === 'Point' &&
+    Array.isArray(geometry.coordinates) &&
+    typeof geometry.coordinates[0] === 'number' &&
+    Number.isFinite(geometry.coordinates[0]) &&
+    typeof geometry.coordinates[1] === 'number' &&
+    Number.isFinite(geometry.coordinates[1]) &&
+    (feature.properties === null || isRecord(feature.properties))
+  )
+}
+
+function mapMetarGeoJsonFeature(
+  feature: MetarGeoJsonFeature,
+): MetarObservation | null {
+  if (!feature.geometry) {
+    return null
+  }
+
+  const [lon, lat] = feature.geometry.coordinates
+  const properties = feature.properties ?? {}
+  const icaoId = properties.icaoId ?? properties.id
+
+  if (typeof icaoId !== 'string') {
+    return null
+  }
+
+  const observation: MetarObservation = {
+    ...properties,
+    fltCat: properties.fltCat ?? properties.fltcat,
+    icaoId,
+    lat,
+    lon,
+    name:
+      typeof properties.name === 'string'
+        ? properties.name
+        : typeof properties.site === 'string'
+          ? properties.site
+          : icaoId,
+    wxString:
+      typeof properties.wxString === 'string'
+        ? properties.wxString
+        : typeof properties.wx === 'string'
+          ? properties.wx
+          : undefined,
+  }
+
+  return isValidMetarObservation(observation) ? observation : null
+}
+
+function parseMetarObservations(body: unknown) {
+  if (isMetarGeoJsonFeatureCollection(body)) {
+    return body.features
+      .filter(isMetarGeoJsonFeature)
+      .map(mapMetarGeoJsonFeature)
+      .filter((observation): observation is MetarObservation =>
+        Boolean(observation),
+      )
+  }
+
+  if (Array.isArray(body)) {
+    return body.filter(isValidMetarObservation)
+  }
+
+  return []
 }
 
 function readCachedMetar(now = Date.now(), allowStale = false) {
@@ -104,10 +198,8 @@ export async function fetchMetarObservations(
       throw new Error(`AviationWeather API returned ${response.status}`)
     }
 
-    const body = (await response.json()) as Partial<MetarObservation>[]
-    const observations = Array.isArray(body)
-      ? body.filter(isValidMetarObservation)
-      : []
+    const body = (await response.json()) as unknown
+    const observations = parseMetarObservations(body)
 
     if (observations.length === 0) {
       throw new Error('AviationWeather API returned no valid METAR records')

@@ -69,13 +69,13 @@ npm run build
 โปรเจกต์เรียก METAR endpoint นี้:
 
 ```txt
-https://aviationweather.gov/api/data/metar?bbox=5.5,97.0,20.5,106.0&format=json
+https://aviationweather.gov/api/data/metar?bbox=5.5,97.0,20.5,106.0&format=geojson
 ```
 
 แต่ใน browser จะไม่ได้เรียก domain นี้ตรง ๆ เพราะอาจติด CORS จึงเรียกผ่าน Vite dev proxy:
 
 ```txt
-/api/aviationweather/metar?bbox=5.5%2C97.0%2C20.5%2C106.0&format=json
+/api/aviationweather/metar?bbox=5.5%2C97.0%2C20.5%2C106.0&format=geojson
 ```
 
 proxy อยู่ใน `vite.config.ts`:
@@ -95,7 +95,7 @@ server: {
 ดังนั้น request จากแอปจะถูกส่งต่อเป็น:
 
 ```txt
-https://aviationweather.gov/api/data/metar?bbox=5.5,97.0,20.5,106.0&format=json
+https://aviationweather.gov/api/data/metar?bbox=5.5,97.0,20.5,106.0&format=geojson
 ```
 
 สำหรับ production ต้องทำ proxy ฝั่ง backend, serverless function หรือ deployment rewrite เอง เพราะ Vite proxy ใช้เฉพาะตอน development
@@ -155,7 +155,7 @@ WeatherMap.tsx
 useMetarWeatherLayers.ts
   ↓ fetches data
 aviationWeatherMetarApi.ts
-  ↓ returns MetarObservation[]
+  ↓ fetches GeoJSON and returns MetarObservation[]
 metarToWeatherPoints.ts
   ↓ maps observations by selected weather layer
 createWeatherPointClusters.ts
@@ -247,6 +247,9 @@ wind
 rain
 temperature
 thunderstorm
+visibility
+fog
+cloudCoverage
 ```
 
 ถ้าจะเพิ่ม layer ใหม่ ต้องแก้ 3 จุด:
@@ -281,6 +284,14 @@ observations: []
 
 - สร้าง URL ด้วย `getAviationWeatherMetarUrl()`
 - fetch METAR data
+- request AviationWeather ด้วย `format=geojson`
+- แปลง `FeatureCollection` เป็น `MetarObservation[]`
+  - `geometry.coordinates` เป็น `[lon, lat]`
+  - `properties.id` map เป็น `icaoId`
+  - `properties.site` map เป็น `name`
+  - `properties.fltcat` map เป็น `fltCat`
+  - `properties.wx` map เป็น `wxString`
+  - field อื่นใช้ตรง ๆ เช่น `temp`, `wspd`, `clouds`, `rawOb`
 - validate response เบื้องต้น
 - cache successful response ลง `localStorage`
 - fallback ไป stale cache ถ้า API fail
@@ -310,6 +321,9 @@ const AVIATION_WEATHER_BBOX = '5.5,97.0,20.5,106.0'
 - Wind ใช้ `observation.wspd` และ `observation.wgst`
 - Rain ใช้ `precip`, `pcp3hr`, `wxString`, `rawOb`
 - Thunderstorm ใช้ `TS`, `VCTS`, `TSRA`, visibility, gust และ flight category
+- Visibility ใช้ `visib` และ `fltCat`
+- Fog ใช้ `FG`, `BR`, fog-related weather codes, visibility, และ temp/dewpoint spread
+- Cloud coverage ใช้ `cover`, `clouds`, `ceil` และ `fltCat`
 
 ถ้า layer ไม่ขึ้นแม้ API มี response ให้เริ่ม debug ที่ไฟล์นี้ เพราะเป็นจุดที่ข้อมูลอาจถูก filter ออกจนหมด
 
