@@ -6,7 +6,26 @@
 
 โปรเจกต์นี้เป็น POC สำหรับแสดงข้อมูลอากาศบน Google Maps ด้วยข้อมูล METAR จาก AviationWeather API
 
-ตอนนี้ระบบทำสิ่งเหล่านี้:
+ทิศทาง requirement ปัจจุบันคือ **station-based operational weather map**:
+
+- METAR ต้องถูกมองเป็น station observation
+- แสดงข้อมูลที่ตำแหน่งจริงของแต่ละ METAR station เท่านั้น
+- ไม่สร้าง artificial points รอบสถานี
+- ไม่ใช้ heatmap เพื่อสื่อว่า weather condition ครอบคลุมพื้นที่กว้าง
+- ใช้ marker, icon, badge, severity และ detail panel แทน area-spreading heatmap
+
+โหมดหลักของ phase ใหม่:
+
+- `Rain`
+- `Wind`
+- `Thunderstorm`
+- `Temperature`
+
+Cloud data ยังควรเก็บไว้ใน station detail และ future phase แต่ยังไม่ใช่ active mode หลัก
+
+### Current Runtime State
+
+โค้ด runtime ปัจจุบันยังเป็น legacy heatmap flow ระหว่าง migration:
 
 - แสดง Google Map ผ่าน `@vis.gl/react-google-maps`
 - Fetch METAR จาก AviationWeather ผ่าน Vite proxy
@@ -15,14 +34,21 @@
 - มี cache ใน `localStorage` เพื่อลดการเรียก API ซ้ำ
 - ไม่มี mock weather data ใน runtime แล้ว
 
-Layer ที่รองรับตอนนี้:
+Layer heatmap ที่ยังมีในโค้ดปัจจุบัน:
 
 - `Temperature`
 - `Wind`
 - `Rain`
 - `Thunderstorm`
+- `Visibility`
+- `Fog`
+- `Cloud coverage`
 
-Weather Radar ถูกเอาออกแล้ว เพราะข้อมูล METAR ไม่ใช่ radar raster จริง ถ้าต้องการ radar ในอนาคตควรใช้ weather tile/raster provider แยกต่างหาก
+หมายเหตุสำคัญ:
+
+- Heatmap flow นี้เป็น legacy/POC และควรถูกแทนด้วย station marker flow ตาม `Readme/Tasks.md`
+- Weather Radar ถูกเอาออกแล้ว เพราะข้อมูล METAR ไม่ใช่ radar raster จริง
+- ถ้าต้องการ radar หรือ global smooth weather layer ในอนาคต ควรใช้ weather tile/raster provider แยกต่างหาก
 
 ## Tech Stack
 
@@ -31,9 +57,10 @@ Weather Radar ถูกเอาออกแล้ว เพราะข้อ�
 - Vite
 - Google Maps JavaScript API
 - `@vis.gl/react-google-maps`
-- Google Maps Visualization Library สำหรับ `HeatmapLayer`
+- AviationWeather METAR GeoJSON API
+- Google Maps Visualization Library สำหรับ legacy `HeatmapLayer`
 
-หมายเหตุ: Google Maps Heatmap Layer ถูก deprecate แล้ว ใช้ได้สำหรับ POC แต่ถ้าจะทำ production ควรประเมินทางเลือก เช่น deck.gl, WebGL overlay, canvas overlay หรือ raster tile overlay
+หมายเหตุ: Google Maps Heatmap Layer ถูก deprecate แล้ว และไม่เหมาะกับ operational METAR station observation ใน phase ใหม่
 
 ## Setup
 
@@ -147,7 +174,7 @@ src/
 
 ## Data Flow
 
-ภาพรวมการไหลของข้อมูล:
+ภาพรวมการไหลของข้อมูลปัจจุบันใน legacy heatmap flow:
 
 ```txt
 WeatherMap.tsx
@@ -165,7 +192,25 @@ WeatherHeatmapLayer.tsx
 Google Map
 ```
 
-ให้อ่าน flow นี้ก่อนแก้เสมอ เพราะแต่ละไฟล์มีหน้าที่แยกกันชัดเจน
+target data flow ตาม requirement ใหม่ควรเป็น:
+
+```txt
+WeatherMap.tsx
+  ↓ calls hook
+useMetarWeatherLayers.ts
+  ↓ fetches data
+aviationWeatherMetarApi.ts
+  ↓ fetches GeoJSON and returns MetarObservation[]
+metarToWeatherStations.ts
+  ↓ maps observations to WeatherStation[]
+WeatherStationMarkerLayer.tsx
+  ↓ renders one marker per station
+WeatherStationDetailPanel.tsx
+  ↓ shows selected station detail
+Google Map
+```
+
+ให้อ่านทั้ง current flow และ target flow ก่อนแก้ เพราะ phase ใหม่คือ migration จาก heatmap ไป station marker
 
 ## File Responsibilities
 

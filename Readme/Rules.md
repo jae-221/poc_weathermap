@@ -2,12 +2,21 @@
 
 ## Project Goal
 
-This project is a React + TypeScript POC for rendering a Weather Map using Google Maps and Heatmap visualization.
+This project is a React + TypeScript POC for rendering a METAR-based Weather Map using Google Maps.
+
+Current requirement direction:
+
+- METAR data must be treated as station observation data.
+- Active operational display should use station markers at exact METAR coordinates.
+- Do not spread METAR values into artificial area coverage.
+- Heatmap code may remain only as legacy POC/reference during migration.
 
 The app must:
 - Render Google Maps on a web page.
 - Use `@vis.gl/react-google-maps`.
-- Display mock weather data as a heatmap layer.
+- Fetch AviationWeather METAR GeoJSON through the project proxy.
+- Display Rain, Wind, Thunderstorm, and Temperature station modes.
+- Show readable marker/detail states for missing or partial station data.
 - Keep code clean, modular, and easy to extend.
 
 ---
@@ -34,7 +43,9 @@ The app must:
 - Read Google Maps API key from `.env`.
 - Use feature-based folder structure.
 - Keep Google Map logic inside `features/weather-map`.
-- Use mock data first before integrating real API.
+- Prefer pure mappers/utilities for METAR code parsing and severity logic.
+- Do not create fake station points or random spread points for operational METAR display.
+- Keep cloud data available for detail/future phase even when Cloud is not an active mode.
 
 ---
 
@@ -48,7 +59,9 @@ Example:
 
 ```txt
 WeatherMap.tsx
-WeatherHeatmapLayer.tsx
+WeatherStationMarkerLayer.tsx
+WeatherStationMarker.tsx
+WeatherStationDetailPanel.tsx
 ```
 
 ---
@@ -72,7 +85,9 @@ Use PascalCase.
 Example:
 
 ```txt
-WeatherPoint
+WeatherStation
+WeatherSeverity
+RainCondition
 ```
 
 ---
@@ -151,7 +166,8 @@ The app must handle:
 - Missing API key.
 - Empty weather data.
 - Google Maps not loaded yet.
-- Visualization library not loaded yet.
+- Missing METAR fields such as `wx`, `rawOb`, `wspd`, `wdir`, `temp`, or clouds.
+- Invalid station coordinates.
 
 The app should show readable UI messages instead of crashing.
 
