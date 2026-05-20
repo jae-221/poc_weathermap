@@ -9,7 +9,7 @@ React + TypeScript POC สำหรับแสดงข้อมูล METAR �
 - โหมดหลัก: Rain, Wind, Thunderstorm, Temperature
 - Cloud ใช้เก็บข้อมูลไว้สำหรับ detail/future phase
 
-หมายเหตุ: โค้ด runtime ปัจจุบันยังมี legacy heatmap flow อยู่ระหว่าง migration ไป station marker ตาม [Tasks.md](Readme/Tasks.md)
+Runtime ปัจจุบันใช้ station marker flow แล้ว ไม่สร้าง heatmap หรือ fake spread points จาก METAR station observations
 
 ## Setup
 

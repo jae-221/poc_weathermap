@@ -7,7 +7,7 @@ function App() {
       <section className="app-header">
         <h1>Weather Map POC</h1>
         <p>
-          A basic Google Map centered on Bangkok, ready for weather heatmap data.
+          A station-based METAR weather map centered on Bangkok.
         </p>
       </section>
 

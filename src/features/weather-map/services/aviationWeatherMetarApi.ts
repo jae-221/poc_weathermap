@@ -136,7 +136,7 @@ function parseMetarObservations(body: unknown) {
 }
 
 function readCachedMetar(now = Date.now(), allowStale = false) {
-  const cached = window.localStorage.getItem(METAR_CACHE_KEY)
+  const cached = readCacheValue()
 
   if (!cached) {
     return null
@@ -169,13 +169,25 @@ function readCachedMetar(now = Date.now(), allowStale = false) {
   }
 }
 
+function readCacheValue() {
+  try {
+    return window.localStorage.getItem(METAR_CACHE_KEY)
+  } catch {
+    return null
+  }
+}
+
 function writeMetarCache(observations: MetarObservation[]) {
   const payload: CachedMetarPayload = {
     cachedAt: Date.now(),
     observations,
   }
 
-  window.localStorage.setItem(METAR_CACHE_KEY, JSON.stringify(payload))
+  try {
+    window.localStorage.setItem(METAR_CACHE_KEY, JSON.stringify(payload))
+  } catch {
+    // Cache failure should not block live METAR rendering.
+  }
 }
 
 export async function fetchMetarObservations(

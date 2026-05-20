@@ -2,56 +2,84 @@ export type WeatherLayerType =
   | 'temperature'
   | 'wind'
   | 'rain'
-  | 'thunderstorm'
-  | 'visibility'
-  | 'fog'
-  | 'cloudCoverage'
 
-export type WeatherHeatmapPoint = {
+export type WeatherStationLayerType = WeatherLayerType
+
+export type WeatherSeverity =
+  | 'normal'
+  | 'caution'
+  | 'warning'
+  | 'critical'
+
+export type RainCondition = {
+  type:
+    | 'none'
+    | 'drizzle'
+    | 'nearby_shower'
+    | 'recent_rain'
+    | 'light_rain'
+    | 'rain'
+    | 'heavy_rain'
+    | 'thunderstorm_rain'
+  severity: WeatherSeverity
+  label: string
+  icon: string
+}
+
+export type WindCondition = {
+  direction: number | 'VRB' | null
+  speedKt: number | null
+  gustKt: number | null
+  severity: WeatherSeverity
+  label: string
+}
+
+export type ThunderstormCondition = {
+  detected: boolean
+  source: 'wx' | 'rawOb' | 'clouds' | 'none'
+  severity: WeatherSeverity
+  label: string
+}
+
+export type TemperatureCondition = {
+  tempC: number | null
+  dewpointC: number | null
+  severity: WeatherSeverity
+  label: string
+}
+
+export type CloudCondition = {
+  cover: string | null
+  ceilingFt: number | null
+  layers: {
+    base: number | null
+    cover: string
+  }[]
+  hasCb: boolean
+  hasTcu: boolean
+}
+
+export type WeatherStation = {
+  cloud: CloudCondition
+  flightCategory: string | null
   id: string
   lat: number
   lng: number
-  value: number
-  unit?: string
-  temperatureC?: number
-  windKt?: number
-  gustKt?: number
-  rainfallMmHr?: number
-  thunderstormSeverity?: number
-  visibilityKm?: number
-  weight?: number
-  radius?: number
+  name: string
+  observationTime: string | null
+  overallSeverity: WeatherSeverity
+  rain: RainCondition
+  rawOb: string | null
+  temperature: TemperatureCondition
+  thunderstorm: ThunderstormCondition
+  visibility: string | number | null
+  wind: WindCondition
 }
 
-export type WeatherLayerRadiusConfig = {
-  base: number
-  geographic: number
-  min: number
-  max: number
-  scale: number
-}
-
-export type WeatherLayerRenderingConfig = {
+export type WeatherLayerConfig = {
+  description: string
   id: WeatherLayerType
   label: string
-  gradient: string[]
-  maxIntensity: number
-  opacity: number
-  radius: WeatherLayerRadiusConfig
-}
-
-export type WeatherLayerConfig = WeatherLayerRenderingConfig & {
-  points: WeatherPoint[]
-  thumbClassName: string
-}
-
-export type WeatherPoint = Omit<
-  WeatherHeatmapPoint,
-  'id' | 'value' | 'weight'
-> & {
-  id?: string
-  value?: number
-  weight: number
 }
 
 export type MetarCloudCover =

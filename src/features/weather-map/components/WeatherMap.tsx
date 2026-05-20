@@ -6,9 +6,11 @@ import {
   useApiLoadingStatus,
 } from '@vis.gl/react-google-maps'
 import { env } from '../../../config/env'
+import { weatherLayerConfigs } from '../config/weatherLayerConfigs'
 import { useMetarWeatherLayers } from '../hooks/useMetarWeatherLayers'
-import type { WeatherLayerType } from '../types/weatherMap.types'
-import { WeatherHeatmapLayer } from './WeatherHeatmapLayer'
+import type { WeatherLayerType, WeatherStation } from '../types/weatherMap.types'
+import { WeatherStationDetailPanel } from './WeatherStationDetailPanel'
+import { WeatherStationMarkerLayer } from './WeatherStationMarkerLayer'
 import './WeatherMap.css'
 
 const defaultCenter = {
@@ -31,10 +33,14 @@ export function WeatherMap() {
   const [apiError, setApiError] = useState(false)
   const weatherData = useMetarWeatherLayers()
   const [selectedLayerId, setSelectedLayerId] =
-    useState<WeatherLayerType>('temperature')
-  const selectedLayer =
-    weatherData.layers.find((layer) => layer.id === selectedLayerId) ??
-    weatherData.layers[0]
+    useState<WeatherLayerType>('rain')
+  const [selectedStationId, setSelectedStationId] = useState<string | null>(null)
+  const selectedStation =
+    weatherData.stations.find((station) => station.id === selectedStationId) ??
+    null
+  const handleSelectStation = (station: WeatherStation) => {
+    setSelectedStationId(station.id)
+  }
 
   if (!hasApiKey) {
     return (
@@ -51,6 +57,7 @@ export function WeatherMap() {
           className="weather-map"
           defaultCenter={defaultCenter}
           defaultZoom={5}
+          mapId="DEMO_MAP_ID"
           minZoom={4}
           maxZoom={15}
           gestureHandling="greedy"
@@ -58,13 +65,15 @@ export function WeatherMap() {
           streetViewControl={false}
           disableDefaultUI={false}
         >
-          <WeatherHeatmapLayer
-            config={selectedLayer}
-            points={selectedLayer.points}
+          <WeatherStationMarkerLayer
+            onSelectStation={handleSelectStation}
+            selectedLayer={selectedLayerId}
+            selectedStationId={selectedStationId}
+            stations={weatherData.stations}
           />
         </Map>
         <div className="weather-layer-actions" aria-label="Weather layer types">
-          {weatherData.layers.map((layer) => {
+          {weatherLayerConfigs.map((layer) => {
             const isSelected = layer.id === selectedLayerId
 
             return (
@@ -77,7 +86,7 @@ export function WeatherMap() {
               >
                 <span>{layer.label}</span>
                 <span
-                  className={`weather-layer-thumb ${layer.thumbClassName}`}
+                  className={`weather-layer-thumb weather-layer-thumb-${layer.id}`}
                 />
               </button>
             )
@@ -87,8 +96,20 @@ export function WeatherMap() {
           error={weatherData.error}
           source={weatherData.source}
           status={weatherData.status}
-          totalObservations={weatherData.observations.length}
+          totalObservations={weatherData.stations.length}
         />
+        <StationAvailabilityMessage
+          error={weatherData.error}
+          status={weatherData.status}
+          totalStations={weatherData.stations.length}
+        />
+        {selectedStation ? (
+          <WeatherStationDetailPanel
+            onClose={() => setSelectedStationId(null)}
+            selectedLayer={selectedLayerId}
+            station={selectedStation}
+          />
+        ) : null}
         <MapLoadingMessage hasApiError={apiError} />
       </div>
     </APIProvider>
@@ -140,6 +161,44 @@ function WeatherDataMessage({
       <span>{getWeatherDataLabel({ source, status })}</span>
       <span>{totalObservations} stations</span>
       {error ? <span title={error}>API unavailable</span> : null}
+    </div>
+  )
+}
+
+type StationAvailabilityMessageProps = {
+  error?: string
+  status: string
+  totalStations: number
+}
+
+function StationAvailabilityMessage({
+  error,
+  status,
+  totalStations,
+}: StationAvailabilityMessageProps) {
+  if (status === 'loading') {
+    return (
+      <div className="weather-map-status" role="status">
+        Loading METAR station observations.
+      </div>
+    )
+  }
+
+  if (totalStations > 0) {
+    return null
+  }
+
+  if (status === 'error') {
+    return (
+      <div className="weather-map-status" role="status">
+        No METAR station data is available. {error ? error : 'API unavailable.'}
+      </div>
+    )
+  }
+
+  return (
+    <div className="weather-map-status" role="status">
+      No METAR station data is available for this map area.
     </div>
   )
 }

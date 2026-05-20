@@ -1,15 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
-import { weatherLayerConfigs } from '../config/weatherLayerConfigs'
-import { mapMetarToWeatherPoints } from '../mappers/metarToWeatherPoints'
+import { metarToWeatherStations } from '../mappers/metarToWeatherStations'
 import {
   fetchMetarObservations,
   type MetarFetchSource,
 } from '../services/aviationWeatherMetarApi'
-import type {
-  MetarObservation,
-  WeatherLayerConfig,
-  WeatherLayerType,
-} from '../types/weatherMap.types'
+import type { MetarObservation } from '../types/weatherMap.types'
 
 type WeatherDataStatus = 'loading' | 'ready' | 'error'
 
@@ -18,29 +13,6 @@ type WeatherDataState = {
   observations: MetarObservation[]
   source?: MetarFetchSource
   status: WeatherDataStatus
-}
-
-const pointsPerStationByLayer: Record<WeatherLayerType, number> = {
-  cloudCoverage: 7,
-  fog: 8,
-  rain: 8,
-  temperature: 6,
-  thunderstorm: 8,
-  visibility: 7,
-  wind: 6,
-}
-
-function createLayerConfigs(
-  observations: MetarObservation[],
-): WeatherLayerConfig[] {
-  return weatherLayerConfigs.map((layer) => ({
-    ...layer,
-    points: mapMetarToWeatherPoints(
-      observations,
-      layer.id,
-      pointsPerStationByLayer[layer.id],
-    ),
-  }))
 }
 
 export function useMetarWeatherLayers() {
@@ -75,13 +47,13 @@ export function useMetarWeatherLayers() {
     return () => abortController.abort()
   }, [])
 
-  const layers = useMemo(
-    () => createLayerConfigs(state.observations),
+  const stations = useMemo(
+    () => metarToWeatherStations(state.observations),
     [state.observations],
   )
 
   return {
     ...state,
-    layers,
+    stations,
   }
 }
